@@ -150,7 +150,7 @@
 
           <!-- Social Login Buttons (outside form) -->
           <div class="social-login d-flex justify-content-center mb-3">
-            <a href="https://fair-mice-battle.loca.lt/auth/google"><i class="fab fa-google"></i> Google</a>
+            <a href="http://localhost:5000/auth/google"><i class="fab fa-google"></i> Google</a>
             <a href="http://localhost:5000/auth/facebook"><i class="fab fa-facebook-f"></i> Facebook</a>
           </div>
 
@@ -182,8 +182,9 @@
       const password = document.getElementById("password").value;
 
       try {
-        const res = await fetch("https://fair-mice-battle.loca.lt/api/login", {
+        const res = await fetch("http://localhost:5000/api/login", {
           method: "POST",
+          credentials: "include",  // Required for Flask session
           headers: {
             "Content-Type": "application/json"
           },
@@ -193,9 +194,8 @@
         const data = await res.json();
 
         if (res.ok) {
-          alert("✅ Login successful!");
-          // Redirect to your dashboard
-          // window.location.href = "dashboard.html";
+          alert("✅ Login successful! Redirecting...");
+          window.location.href = "http://localhost:5000/experience";
         } else {
           alert("❌ " + data.message);
         }
