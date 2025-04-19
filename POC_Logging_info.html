@@ -133,11 +133,11 @@
     </div>
   </div>
 
-  <!-- 🧠 JS Logic -->
+  <!-- 🧠 JavaScript Logic -->
   <script>
     const form = document.getElementById('experienceForm');
 
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', async function (e) {
       e.preventDefault();
 
       if (!form.checkValidity()) {
@@ -153,13 +153,52 @@
         shareConsent: document.getElementById('shareConsent').checked
       };
 
-      console.log("🔄 Experience Shared:", data);
-      alert("✅ Your experience has been logged!");
-      form.reset();
+      try {
+        // 📝 Save user experience
+        const saveRes = await fetch("https://fair-mice-battle.loca.lt/api/experience", {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
+        });
+
+        if (!saveRes.ok) {
+          const error = await saveRes.json();
+          alert("❌ Error saving experience: " + error.message);
+          return;
+        }
+
+        // 🌐 Share if opted in
+        if (data.shareConsent) {
+          const shareRes = await fetch("https://fair-mice-battle.loca.lt/api/share", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+          });
+
+          if (!shareRes.ok) {
+            const error = await shareRes.json();
+            alert("❌ Error sharing experience: " + error.message);
+            return;
+          }
+        }
+
+        alert("✅ Your experience has been logged!");
+        form.reset();
+
+      } catch (err) {
+        console.error("⚠️ Submission error:", err);
+        alert("⚠️ Could not connect to backend.");
+      }
     });
 
-    // 🔒 Simulated authentication
-    const currentUser = "User"; // Replace with session value later
+    // Placeholder user label
+    const currentUser = "User"; // You can fetch this via GET /api/user if needed
     document.querySelector('.welcome-msg strong').textContent = currentUser;
   </script>
 
@@ -168,3 +207,4 @@
 
 </body>
 </html>
+
