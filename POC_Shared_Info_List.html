@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shared Experiences</title>
+
+  <!-- Bootstrap CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+
+  <!-- Google Font -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    body {
+      background-color: #2d6a4f;
+      color: white;
+      font-family: 'Oswald', sans-serif;
+      padding: 2rem;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .welcome-msg {
+      text-align: center;
+      font-size: 1.3rem;
+      margin-bottom: 2rem;
+    }
+
+    .scroll-container {
+      max-height: 80vh;
+      overflow-y: auto;
+      padding-right: 1rem;
+    }
+
+    .experience-card {
+      background-color: #1b4332;
+      border-radius: 1rem;
+      padding: 1rem 1.5rem;
+      margin: 1rem auto;
+      max-width: 600px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .experience-card .alias {
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+
+    .experience-card .details {
+      display: none;
+      margin-top: 0.75rem;
+    }
+
+    .experience-card.expanded .details {
+      display: block;
+    }
+
+    .card-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .btn-action {
+      border: none;
+      padding: 6px 14px;
+      font-size: 0.9rem;
+      border-radius: 50rem;
+      color: white;
+      white-space: nowrap;
+    }
+
+    .btn-starred {
+      background-color: #52b788;
+    }
+
+    .btn-delete {
+      background-color: #e63946;
+    }
+
+    .placeholder-msg {
+      text-align: center;
+      margin-top: 2rem;
+      font-style: italic;
+      color: #ddd;
+    }
+
+    .card-summary {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-summary .alias {
+      flex: 1;
+    }
+
+    .card-summary .card-actions {
+      margin-top: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🔍 Shared Experiences</h1>
+  <div class="welcome-msg">Welcome, <strong>User</strong>!</div>
+
+  <div class="scroll-container" id="sharedFeed">
+    <!-- Cards will be injected here -->
+  </div>
+
+  <script>
+    const sharedData = [
+      { name: "CookingNinja42", recipes: "Tried vegan lasagna", achievements: "Completed 5k run", hobbies: "Photography", starred: false },
+      { name: "ChocoQueen", recipes: "Dark chocolate soufflé", achievements: "Read 3 novels", hobbies: "Sketching", starred: false },
+      { name: "ZenGardener", recipes: "Miso ramen", achievements: "30 days of meditation", hobbies: "Gardening", starred: true }
+    ];
+
+    const feed = document.getElementById('sharedFeed');
+
+    function renderCards() {
+      feed.innerHTML = "";
+
+      if (sharedData.length === 0) {
+        feed.innerHTML = `<div class="placeholder-msg">No shared experiences yet.</div>`;
+        return;
+      }
+
+      sharedData.slice(0, 10).forEach((entry, index) => {
+        const div = document.createElement('div');
+        div.className = 'experience-card';
+        if (entry.expanded) div.classList.add('expanded');
+
+        div.innerHTML = `
+          <div class="card-summary">
+            <div class="alias">${entry.name}</div>
+            <div class="card-actions">
+              <button class="btn-action btn-starred" onclick="event.stopPropagation(); toggleStar(${index})">
+                ${entry.starred ? "Unstar" : "Save"}
+              </button>
+              <button class="btn-action btn-delete" onclick="event.stopPropagation(); deleteEntry(${index})">
+                Delete
+              </button>
+            </div>
+          </div>
+          <div class="details">
+            <p><strong>🍽 Recipes:</strong> ${entry.recipes}</p>
+            <p><strong>🏆 Achievements:</strong> ${entry.achievements}</p>
+            <p><strong>🎨 Hobbies:</strong> ${entry.hobbies}</p>
+            <p class="text-muted small">${entry.starred ? "⭐ Starred (saved)" : "♻ Replaceable"}</p>
+          </div>
+        `;
+
+        // Expand/collapse behavior
+        div.addEventListener('click', () => {
+          entry.expanded = !entry.expanded;
+          renderCards();
+        });
+
+        feed.appendChild(div);
+      });
+    }
+
+    function toggleStar(index) {
+      sharedData[index].starred = !sharedData[index].starred;
+      renderCards();
+    }
+
+    function deleteEntry(index) {
+      sharedData.splice(index, 1);
+      renderCards();
+    }
+
+    // Simulate backend push with recycle rule
+    function simulateNewEntry(entry) {
+      if (sharedData.length >= 10) {
+        const replaceIndex = sharedData.findIndex(e => !e.starred);
+        if (replaceIndex !== -1) {
+          sharedData.splice(replaceIndex, 1);
+        } else {
+          alert("All entries are starred and cannot be replaced.");
+          return;
+        }
+      }
+      sharedData.push(entry);
+      renderCards();
+    }
+
+    renderCards();
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
