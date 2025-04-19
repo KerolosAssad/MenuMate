@@ -148,7 +148,7 @@
 
           <hr />
 
-          <!-- Social Login Buttons (outside form) -->
+          <!-- Social Login Buttons -->
           <div class="social-login d-flex justify-content-center mb-3">
             <a href="https://fair-mice-battle.loca.lt/auth/google"><i class="fab fa-google"></i> Google</a>
             <a href="http://localhost:5000/auth/facebook"><i class="fab fa-facebook-f"></i> Facebook</a>
@@ -171,7 +171,7 @@
   <!-- Bootstrap Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- JavaScript to Connect to Flask -->
+  <!-- Login Logic -->
   <script>
     const loginForm = document.getElementById("loginForm");
 
@@ -184,7 +184,7 @@
       try {
         const res = await fetch("https://fair-mice-battle.loca.lt/api/login", {
           method: "POST",
-          credentials: "include",  // Required for Flask session
+          credentials: "include",  // Needed for session cookie
           headers: {
             "Content-Type": "application/json"
           },
@@ -195,7 +195,7 @@
 
         if (res.ok) {
           alert("✅ Login successful! Redirecting...");
-          window.location.href = "https://fair-mice-battle.loca.lt/experience";
+          window.location.href = "https://kerolosassad.github.io/MenuMate/POC_Logging_info.html";
         } else {
           alert("❌ " + data.message);
         }
