@@ -150,7 +150,7 @@
 
           <!-- Social Login Buttons -->
           <div class="social-login d-flex justify-content-center mb-3">
-            <a href="${API_BASE_URL}/auth/google"><i class="fab fa-google"></i> Google</a>
+            <a id="googleLoginBtn"><i class="fab fa-google"></i> Google</a>
             <a href="http://localhost:5000/auth/facebook"><i class="fab fa-facebook-f"></i> Facebook</a>
           </div>
 
@@ -176,6 +176,9 @@
 
   <!-- Login Logic -->
   <script>
+    // Set Google login href dynamically
+    document.getElementById("googleLoginBtn").href = `${API_BASE_URL}/auth/google`;
+
     const loginForm = document.getElementById("loginForm");
 
     loginForm.addEventListener("submit", async (e) => {
