@@ -162,10 +162,13 @@
     </form>
   </div>
 
+  <!-- ✅ Load config.js before backend logic -->
+  <script src="config.js"></script>
+
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- JavaScript Integration with Backend -->
+  <!-- Registration Logic -->
   <script>
     const form = document.getElementById('registrationForm');
     const passwordInput = document.getElementById('password');
@@ -202,8 +205,9 @@
       const password = document.getElementById("password").value;
 
       try {
-        const res = await fetch("https://fair-mice-battle.loca.lt/api/register", {
+        const res = await fetch(`${API_BASE_URL}/api/register`, {
           method: "POST",
+          credentials: "include",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password })
         });
