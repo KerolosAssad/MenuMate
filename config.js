@@ -1,4 +1,4 @@
 // Automatically switches between local and tunnel depending on domain
 const API_BASE_URL = location.hostname.includes("localhost")
   ? "http://localhost:5000"
-  : "https://sharp-ghosts-mix.loca.lt";
+  : "https://two-toys-reply.loca.lt";
