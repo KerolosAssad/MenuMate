@@ -3,207 +3,111 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MenuMate | Login</title>
+  <title>Shared Experiences</title>
 
-  <!-- Bootstrap 5 CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
 
-  <!-- Google Font -->
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet" />
-
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
   <style>
     body {
-      background-color: #121212;
+      background-color: #2d6a4f;
       color: white;
       font-family: 'Oswald', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      padding: 2rem;
     }
 
-    .header-container {
-      background-color: #28a745;
+    .header {
       display: flex;
-      align-items: center;
-      padding: 10px 20px;
-    }
-
-    .header-logo {
-      max-width: 100px;
-      margin-right: 15px;
-    }
-
-    .login-container {
-      flex: 1;
-      display: flex;
-      align-items: center;
       justify-content: center;
-      padding: 2rem;
-    }
-
-    .card {
-      background-color: #1e1e1e;
-      border-radius: 15px;
-      padding: 2rem;
-      width: 100%;
-      max-width: 420px;
-    }
-
-    .form-control {
-      background-color: #333;
-      color: white;
-      border: 1px solid #555;
-    }
-
-    .form-control::placeholder {
-      color: #aaa;
-    }
-
-    .form-control:focus {
-      background-color: #444;
-      color: white;
-      box-shadow: none;
-    }
-
-    .btn-login {
-      background-color: #17a2b8;
-      color: white;
-      transition: background-color 0.3s;
-    }
-
-    .btn-login:hover {
-      background-color: #138496;
-    }
-
-    .social-login a {
-      color: #333;
-      background-color: white;
-      border: none;
-      padding: 0.5rem 0.75rem;
-      margin-right: 0.5rem;
-      text-decoration: none;
-      border-radius: 0.25rem;
-      font-size: 0.9rem;
-      display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
+      margin-bottom: 2rem;
     }
 
-    .social-login a:hover {
-      background-color: #ddd;
+    .shared-entry {
+      background-color: #1b4332;
+      padding: 1rem;
+      border-radius: 1rem;
+      margin-bottom: 1rem;
     }
 
-    .login-image {
-      width: 100%;
-      height: 100vh;
-      object-fit: contain;
-      object-position: center;
-      background-color: #121212;
-    }
-
-    @media (max-width: 768px) {
-      .login-image {
-        display: none;
-      }
+    .entry-details {
+      margin-top: 1rem;
     }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
-  <div class="header-container">
-    <img src="./assets/MenuMate_simplified_Logo.png" alt="MenuMate Logo" class="header-logo" />
-    <h1 class="mb-0 text-white">MenuMate</h1>
-  </div>
-
-  <!-- Login Section -->
-  <div class="login-container">
-    <div class="row w-100">
-      <!-- Form Column -->
-      <div class="col-md-6 d-flex align-items-center justify-content-center">
-        <div class="card shadow">
-          <h3 class="text-center mb-4">Welcome Back</h3>
-          <form id="loginForm">
-            <div class="mb-3">
-              <label for="email" class="form-label">Email address</label>
-              <input type="email" id="email" class="form-control" placeholder="you@example.com" required />
-            </div>
-
-            <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
-              <input type="password" id="password" class="form-control" placeholder="Enter your password" required />
-            </div>
-
-            <div class="d-grid mb-3">
-              <button type="submit" class="btn btn-login">Login</button>
-            </div>
-
-            <div class="text-center mb-3">
-              <a href="#" class="text-muted small">Forgot password?</a>
-            </div>
-          </form>
-
-          <hr />
-
-          <!-- Social Login Buttons (outside form) -->
-          <div class="social-login d-flex justify-content-center mb-3">
-            <a href="http://localhost:5000/auth/google"><i class="fab fa-google"></i> Google</a>
-            <a href="http://localhost:5000/auth/facebook"><i class="fab fa-facebook-f"></i> Facebook</a>
-          </div>
-
-          <p class="text-center">
-            Don't have an account?
-            <a href="https://kerolosassad.github.io/MenuMate/MenuMate_Registration_Page_Main.html">Register here</a>
-          </p>
-        </div>
-      </div>
-
-      <!-- Image Column -->
-      <div class="col-md-6 px-0">
-        <img src="./assets/cookattempt2.jpg" alt="MenuMachine" class="login-image" />
-      </div>
+  <div class="container">
+    <div class="header">
+      <h1>Shared Experiences With You</h1>
     </div>
+
+    <div id="sharedContainer" class="mt-4"></div>
   </div>
 
-  <!-- Bootstrap Bundle -->
+  <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- JavaScript to Connect to Flask -->
+  <!-- JS Logic -->
   <script>
-    const loginForm = document.getElementById("loginForm");
+    const API_BASE = "https://fair-mice-battle.loca.lt"; // Replace with your current tunnel URL
+    const container = document.getElementById('sharedContainer');
 
-    loginForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
+    let currentUserEmail = null;
 
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-
+    async function loadExperiences() {
       try {
-        const res = await fetch("http://localhost:5000/api/login", {
-          method: "POST",
-          credentials: "include",  // Required for Flask session
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ email, password })
+        // Step 1: Get current user
+        const userRes = await fetch(`${API_BASE}/api/user`, {
+          credentials: "include"
+        });
+        const userData = await userRes.json();
+        if (!userData.logged_in) {
+          container.innerHTML = "<p class='text-warning'>You must be logged in to view shared experiences.</p>";
+          return;
+        }
+
+        currentUserEmail = userData.email;
+
+        // Step 2: Get all shared experiences
+        const res = await fetch(`${API_BASE}/api/shared_experiences`);
+        const allExperiences = await res.json();
+
+        // Step 3: Filter out user's own shared experiences
+        const filtered = allExperiences.filter(exp => exp.email !== currentUserEmail);
+
+        if (filtered.length === 0) {
+          container.innerHTML = "<p class='text-center text-light'>No experiences shared with you yet.</p>";
+          return;
+        }
+
+        // Step 4: Display filtered results
+        filtered.forEach(exp => {
+          const name = exp.name || exp.email.split("@")[0];
+
+          const card = document.createElement("div");
+          card.className = "shared-entry";
+          card.innerHTML = `
+            <strong>${name}</strong>
+            <div class="entry-details">
+              <p><strong>Recipes:</strong> ${exp.recipes || "N/A"}</p>
+              <p><strong>Achievements:</strong> ${exp.achievements || "N/A"}</p>
+              <p><strong>Hobbies:</strong> ${exp.hobbies || "N/A"}</p>
+            </div>
+          `;
+          container.appendChild(card);
         });
 
-        const data = await res.json();
-
-        if (res.ok) {
-          alert("✅ Login successful! Redirecting...");
-          window.location.href = "http://localhost:5000/experience";
-        } else {
-          alert("❌ " + data.message);
-        }
       } catch (err) {
-        alert("⚠️ Could not connect to backend.");
-        console.error(err);
+        console.error("Error loading shared experiences:", err);
+        container.innerHTML = "<p class='text-danger'>Unable to load experiences at this time.</p>";
       }
-    });
+    }
+
+    loadExperiences();
   </script>
 </body>
 </html>
