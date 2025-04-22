@@ -2,209 +2,208 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Shared Experiences</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MenuMate | Login</title>
 
-  <!-- Bootstrap CSS -->
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-  />
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Google Font -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
   <style>
     body {
-      background-color: #2d6a4f;
+      background-color: #121212;
       color: white;
       font-family: 'Oswald', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header-container {
+      background-color: #28a745;
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+    }
+
+    .header-logo {
+      max-width: 100px;
+      margin-right: 15px;
+    }
+
+    .login-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       padding: 2rem;
     }
 
-    h1 {
-      text-align: center;
-      margin-bottom: 1rem;
-      font-weight: 700;
+    .card {
+      background-color: #1e1e1e;
+      border-radius: 15px;
+      padding: 2rem;
+      width: 100%;
+      max-width: 420px;
     }
 
-    .welcome-msg {
-      text-align: center;
-      font-size: 1.3rem;
-      margin-bottom: 2rem;
-    }
-
-    .scroll-container {
-      max-height: 80vh;
-      overflow-y: auto;
-      padding-right: 1rem;
-    }
-
-    .experience-card {
-      background-color: #1b4332;
-      border-radius: 1rem;
-      padding: 1rem 1.5rem;
-      margin: 1rem auto;
-      max-width: 600px;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      cursor: pointer;
-      overflow: hidden;
-    }
-
-    .experience-card .alias {
-      font-size: 1.3rem;
-      font-weight: bold;
-    }
-
-    .experience-card .details {
-      display: none;
-      margin-top: 0.75rem;
-    }
-
-    .experience-card.expanded .details {
-      display: block;
-    }
-
-    .card-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 0.5rem;
-      margin-top: 0.75rem;
-    }
-
-    .btn-action {
-      border: none;
-      padding: 6px 14px;
-      font-size: 0.9rem;
-      border-radius: 50rem;
+    .form-control {
+      background-color: #333;
       color: white;
-      white-space: nowrap;
+      border: 1px solid #555;
     }
 
-    .btn-starred {
-      background-color: #52b788;
+    .form-control::placeholder {
+      color: #aaa;
     }
 
-    .btn-delete {
-      background-color: #e63946;
+    .form-control:focus {
+      background-color: #444;
+      color: white;
+      box-shadow: none;
     }
 
-    .placeholder-msg {
-      text-align: center;
-      margin-top: 2rem;
-      font-style: italic;
-      color: #ddd;
+    .btn-login {
+      background-color: #17a2b8;
+      color: white;
+      transition: background-color 0.3s;
     }
 
-    .card-summary {
-      display: flex;
-      justify-content: space-between;
+    .btn-login:hover {
+      background-color: #138496;
+    }
+
+    .social-login a {
+      color: #333;
+      background-color: white;
+      border: none;
+      padding: 0.5rem 0.75rem;
+      margin-right: 0.5rem;
+      text-decoration: none;
+      border-radius: 0.25rem;
+      font-size: 0.9rem;
+      display: inline-flex;
       align-items: center;
+      gap: 0.4rem;
     }
 
-    .card-summary .alias {
-      flex: 1;
+    .social-login a:hover {
+      background-color: #ddd;
     }
 
-    .card-summary .card-actions {
-      margin-top: 0;
+    .login-image {
+      width: 100%;
+      height: 100vh;
+      object-fit: contain;
+      object-position: center;
+      background-color: #121212;
+    }
+
+    @media (max-width: 768px) {
+      .login-image {
+        display: none;
+      }
     }
   </style>
 </head>
 <body>
 
-  <h1>🔍 Shared Experiences</h1>
-  <div class="welcome-msg">Welcome, <strong>User</strong>!</div>
-
-  <div class="scroll-container" id="sharedFeed">
-    <!-- Cards will be injected here -->
+  <!-- Header -->
+  <div class="header-container">
+    <img src="./assets/MenuMate_simplified_Logo.png" alt="MenuMate Logo" class="header-logo" />
+    <h1 class="mb-0 text-white">MenuMate</h1>
   </div>
 
-  <script>
-    const sharedData = [
-      { name: "CookingNinja42", recipes: "Tried vegan lasagna", achievements: "Completed 5k run", hobbies: "Photography", starred: false },
-      { name: "ChocoQueen", recipes: "Dark chocolate soufflé", achievements: "Read 3 novels", hobbies: "Sketching", starred: false },
-      { name: "ZenGardener", recipes: "Miso ramen", achievements: "30 days of meditation", hobbies: "Gardening", starred: true }
-    ];
-
-    const feed = document.getElementById('sharedFeed');
-
-    function renderCards() {
-      feed.innerHTML = "";
-
-      if (sharedData.length === 0) {
-        feed.innerHTML = `<div class="placeholder-msg">No shared experiences yet.</div>`;
-        return;
-      }
-
-      sharedData.slice(0, 10).forEach((entry, index) => {
-        const div = document.createElement('div');
-        div.className = 'experience-card';
-        if (entry.expanded) div.classList.add('expanded');
-
-        div.innerHTML = `
-          <div class="card-summary">
-            <div class="alias">${entry.name}</div>
-            <div class="card-actions">
-              <button class="btn-action btn-starred" onclick="event.stopPropagation(); toggleStar(${index})">
-                ${entry.starred ? "Unstar" : "Save"}
-              </button>
-              <button class="btn-action btn-delete" onclick="event.stopPropagation(); deleteEntry(${index})">
-                Delete
-              </button>
+  <!-- Login Section -->
+  <div class="login-container">
+    <div class="row w-100">
+      <!-- Form Column -->
+      <div class="col-md-6 d-flex align-items-center justify-content-center">
+        <div class="card shadow">
+          <h3 class="text-center mb-4">Welcome Back</h3>
+          <form id="loginForm">
+            <div class="mb-3">
+              <label for="email" class="form-label">Email address</label>
+              <input type="email" id="email" class="form-control" placeholder="you@example.com" required />
             </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" id="password" class="form-control" placeholder="Enter your password" required />
+            </div>
+
+            <div class="d-grid mb-3">
+              <button type="submit" class="btn btn-login">Login</button>
+            </div>
+
+            <div class="text-center mb-3">
+              <a href="#" class="text-muted small">Forgot password?</a>
+            </div>
+          </form>
+
+          <hr />
+
+          <!-- Social Login Buttons (outside form) -->
+          <div class="social-login d-flex justify-content-center mb-3">
+            <a href="http://localhost:5000/auth/google"><i class="fab fa-google"></i> Google</a>
+            <a href="http://localhost:5000/auth/facebook"><i class="fab fa-facebook-f"></i> Facebook</a>
           </div>
-          <div class="details">
-            <p><strong>🍽 Recipes:</strong> ${entry.recipes}</p>
-            <p><strong>🏆 Achievements:</strong> ${entry.achievements}</p>
-            <p><strong>🎨 Hobbies:</strong> ${entry.hobbies}</p>
-            <p class="text-muted small">${entry.starred ? "⭐ Starred (saved)" : "♻ Replaceable"}</p>
-          </div>
-        `;
 
-        // Expand/collapse behavior
-        div.addEventListener('click', () => {
-          entry.expanded = !entry.expanded;
-          renderCards();
-        });
+          <p class="text-center">
+            Don't have an account?
+            <a href="https://kerolosassad.github.io/MenuMate/MenuMate_Registration_Page_Main.html">Register here</a>
+          </p>
+        </div>
+      </div>
 
-        feed.appendChild(div);
-      });
-    }
+      <!-- Image Column -->
+      <div class="col-md-6 px-0">
+        <img src="./assets/cookattempt2.jpg" alt="MenuMachine" class="login-image" />
+      </div>
+    </div>
+  </div>
 
-    function toggleStar(index) {
-      sharedData[index].starred = !sharedData[index].starred;
-      renderCards();
-    }
-
-    function deleteEntry(index) {
-      sharedData.splice(index, 1);
-      renderCards();
-    }
-
-    // Simulate backend push with recycle rule
-    function simulateNewEntry(entry) {
-      if (sharedData.length >= 10) {
-        const replaceIndex = sharedData.findIndex(e => !e.starred);
-        if (replaceIndex !== -1) {
-          sharedData.splice(replaceIndex, 1);
-        } else {
-          alert("All entries are starred and cannot be replaced.");
-          return;
-        }
-      }
-      sharedData.push(entry);
-      renderCards();
-    }
-
-    renderCards();
-  </script>
-
+  <!-- Bootstrap Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
+  <!-- JavaScript to Connect to Flask -->
+  <script>
+    const loginForm = document.getElementById("loginForm");
+
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      try {
+        const res = await fetch("http://localhost:5000/api/login", {
+          method: "POST",
+          credentials: "include",  // Required for Flask session
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          alert("✅ Login successful! Redirecting...");
+          window.location.href = "http://localhost:5000/experience";
+        } else {
+          alert("❌ " + data.message);
+        }
+      } catch (err) {
+        alert("⚠️ Could not connect to backend.");
+        console.error(err);
+      }
+    });
+  </script>
 </body>
 </html>
