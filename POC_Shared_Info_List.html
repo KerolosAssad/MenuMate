@@ -53,41 +53,52 @@
 
   <!-- JS Logic -->
   <script>
-    const API_BASE = "https://fair-mice-battle.loca.lt"; // Replace with your current tunnel URL
+    const API_BASE = "https://fair-mice-battle.loca.lt"; // Replace with your tunnel URL
     const container = document.getElementById('sharedContainer');
 
     let currentUserEmail = null;
 
-    async function loadExperiences() {
-      try {
-        // Step 1: Get current user
-        const userRes = await fetch(`${API_BASE}/api/user`, {
-          credentials: "include"
+    async function getCurrentUser() {
+      const res = await fetch(`${API_BASE}/api/user`, { credentials: "include" });
+      const data = await res.json();
+      return data.logged_in ? data.email : null;
+    }
+
+    async function sendLocation(email) {
+      if (!navigator.geolocation) return;
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        const { latitude, longitude } = position.coords;
+        await fetch(`${API_BASE}/api/track_location`, {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ latitude, longitude })
         });
-        const userData = await userRes.json();
-        if (!userData.logged_in) {
+      }, (err) => {
+        console.warn("Geolocation not permitted.", err);
+      });
+    }
+
+    async function loadNearbyExperiences() {
+      try {
+        currentUserEmail = await getCurrentUser();
+        if (!currentUserEmail) {
           container.innerHTML = "<p class='text-warning'>You must be logged in to view shared experiences.</p>";
           return;
         }
 
-        currentUserEmail = userData.email;
+        await sendLocation(currentUserEmail);
 
-        // Step 2: Get all shared experiences
-        const res = await fetch(`${API_BASE}/api/shared_experiences`);
-        const allExperiences = await res.json();
+        const res = await fetch(`${API_BASE}/api/nearby_experiences`, { credentials: "include" });
+        const nearby = await res.json();
 
-        // Step 3: Filter out user's own shared experiences
-        const filtered = allExperiences.filter(exp => exp.email !== currentUserEmail);
-
-        if (filtered.length === 0) {
-          container.innerHTML = "<p class='text-center text-light'>No experiences shared with you yet.</p>";
+        if (!nearby.length) {
+          container.innerHTML = "<p class='text-center text-light'>No nearby shared experiences available right now.</p>";
           return;
         }
 
-        // Step 4: Display filtered results
-        filtered.forEach(exp => {
+        nearby.forEach(exp => {
           const name = exp.name || exp.email.split("@")[0];
-
           const card = document.createElement("div");
           card.className = "shared-entry";
           card.innerHTML = `
@@ -100,14 +111,13 @@
           `;
           container.appendChild(card);
         });
-
       } catch (err) {
-        console.error("Error loading shared experiences:", err);
+        console.error("Error loading nearby shared experiences:", err);
         container.innerHTML = "<p class='text-danger'>Unable to load experiences at this time.</p>";
       }
     }
 
-    loadExperiences();
+    loadNearbyExperiences();
   </script>
 </body>
 </html>
