@@ -33,10 +33,32 @@
       padding: 1rem;
       border-radius: 1rem;
       margin-bottom: 1rem;
+      transition: all 0.3s ease-in-out;
+      cursor: pointer;
+    }
+
+    .shared-entry.expanded {
+      background-color: #2f5f49;
     }
 
     .entry-details {
+      display: none;
       margin-top: 1rem;
+    }
+
+    .shared-entry.expanded .entry-details {
+      display: block;
+    }
+
+    .action-buttons {
+      margin-top: 1rem;
+      display: flex;
+      gap: 1rem;
+    }
+
+    .btn-action {
+      font-size: 0.9rem;
+      padding: 0.3rem 0.8rem;
     }
   </style>
 </head>
@@ -56,7 +78,6 @@
   <!-- JS Logic -->
   <script>
     const container = document.getElementById('sharedContainer');
-
     let currentUserEmail = null;
 
     async function getCurrentUser() {
@@ -65,7 +86,7 @@
       return data.logged_in ? data.email : null;
     }
 
-    async function sendLocation(email) {
+    async function sendLocation() {
       if (!navigator.geolocation) return;
       navigator.geolocation.getCurrentPosition(async (position) => {
         const { latitude, longitude } = position.coords;
@@ -80,6 +101,24 @@
       });
     }
 
+    async function toggleStar(email) {
+      await fetch(`${API_BASE_URL}/api/shared/star`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
+      });
+      loadNearbyExperiences();
+    }
+
+    async function deleteShared(email) {
+      await fetch(`${API_BASE_URL}/api/shared/delete`, {
+        method: "POST",
+        credentials: "include"
+      });
+      loadNearbyExperiences();
+    }
+
     async function loadNearbyExperiences() {
       try {
         currentUserEmail = await getCurrentUser();
@@ -88,28 +127,46 @@
           return;
         }
 
-        await sendLocation(currentUserEmail);
+        await sendLocation();
 
         const res = await fetch(`${API_BASE_URL}/api/nearby_experiences`, { credentials: "include" });
         const nearby = await res.json();
 
-        if (!nearby.length) {
+        const filtered = nearby.filter(e => e.email !== currentUserEmail);
+        const limited = filtered.slice(0, 10);
+
+        if (!limited.length) {
           container.innerHTML = "<p class='text-center text-light'>No nearby shared experiences available right now.</p>";
           return;
         }
 
-        nearby.forEach(exp => {
+        container.innerHTML = "";
+
+        limited.forEach(exp => {
           const name = exp.name || exp.email.split("@")[0];
+          const isStarred = exp.starred;
           const card = document.createElement("div");
           card.className = "shared-entry";
+
           card.innerHTML = `
             <strong>${name}</strong>
             <div class="entry-details">
               <p><strong>Recipes:</strong> ${exp.recipes || "N/A"}</p>
               <p><strong>Achievements:</strong> ${exp.achievements || "N/A"}</p>
               <p><strong>Hobbies:</strong> ${exp.hobbies || "N/A"}</p>
+              <div class="action-buttons">
+                <button class="btn btn-sm btn-${isStarred ? 'warning' : 'outline-warning'} btn-action" onclick="toggleStar('${exp.email}')">
+                  ${isStarred ? '★' : '☆'} Star
+                </button>
+                <button class="btn btn-sm btn-outline-danger btn-action" onclick="deleteShared('${exp.email}')">🗑 Delete</button>
+              </div>
             </div>
           `;
+
+          card.addEventListener("click", () => {
+            card.classList.toggle("expanded");
+          });
+
           container.appendChild(card);
         });
       } catch (err) {
