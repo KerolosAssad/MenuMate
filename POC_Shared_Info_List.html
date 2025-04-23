@@ -35,6 +35,7 @@
       margin-bottom: 1rem;
       transition: all 0.3s ease-in-out;
       cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
 
     .shared-entry.expanded {
@@ -57,8 +58,20 @@
     }
 
     .btn-action {
+      border: none;
+      padding: 6px 14px;
       font-size: 0.9rem;
-      padding: 0.3rem 0.8rem;
+      border-radius: 50rem;
+      color: white;
+      white-space: nowrap;
+    }
+
+    .btn-starred {
+      background-color: #52b788;
+    }
+
+    .btn-delete {
+      background-color: #e63946;
     }
   </style>
 </head>
@@ -155,10 +168,12 @@
               <p><strong>Achievements:</strong> ${exp.achievements || "N/A"}</p>
               <p><strong>Hobbies:</strong> ${exp.hobbies || "N/A"}</p>
               <div class="action-buttons">
-                <button class="btn btn-sm btn-${isStarred ? 'warning' : 'outline-warning'} btn-action" onclick="toggleStar('${exp.email}')">
-                  ${isStarred ? '★' : '☆'} Star
+                <button class="btn-action btn-starred" onclick="event.stopPropagation(); toggleStar('${exp.email}')">
+                  ${isStarred ? '★ Unstar' : '☆ Save'}
                 </button>
-                <button class="btn btn-sm btn-outline-danger btn-action" onclick="deleteShared('${exp.email}')">🗑 Delete</button>
+                <button class="btn-action btn-delete" onclick="event.stopPropagation(); deleteShared('${exp.email}')">
+                  🗑 Delete
+                </button>
               </div>
             </div>
           `;
