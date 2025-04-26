@@ -83,7 +83,6 @@
       background-color: white;
       border: none;
       padding: 0.5rem 0.75rem;
-      margin-right: 0.5rem;
       text-decoration: none;
       border-radius: 0.25rem;
       font-size: 0.9rem;
@@ -111,6 +110,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <!-- Header -->
@@ -126,7 +126,7 @@
       <div class="col-md-6 d-flex align-items-center justify-content-center">
         <div class="card shadow">
           <h3 class="text-center mb-4">Welcome Back</h3>
-          <form id="loginForm">
+          <form id="loginForm" novalidate>
             <div class="mb-3">
               <label for="email" class="form-label">Email address</label>
               <input type="email" id="email" class="form-control" placeholder="you@example.com" required />
@@ -140,15 +140,13 @@
             <div class="d-grid mb-3">
               <button type="submit" class="btn btn-login">Login</button>
             </div>
-
-            <!-- Optional: Forgot Password Link Removed -->
           </form>
 
           <hr />
 
-          <!-- Social Login Buttons -->
+          <!-- Social Login Button -->
           <div class="social-login d-flex justify-content-center mb-3">
-            <a id="googleLoginBtn"><i class="fab fa-google"></i> Google</a>
+            <a id="googleLoginBtn"><i class="fab fa-google"></i> Login with Google</a>
           </div>
 
           <p class="text-center">
@@ -165,7 +163,7 @@
     </div>
   </div>
 
-  <!-- ✅ Load config for API_BASE_URL -->
+  <!-- ✅ Load config.js first -->
   <script src="config.js"></script>
 
   <!-- Bootstrap Bundle -->
@@ -173,7 +171,7 @@
 
   <!-- Login Logic -->
   <script>
-    // Set Google login href dynamically
+    // Dynamically set Google login link
     document.getElementById("googleLoginBtn").href = `${API_BASE_URL}/auth/google`;
 
     const loginForm = document.getElementById("loginForm");
@@ -181,13 +179,18 @@
     loginForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+      if (!loginForm.checkValidity()) {
+        loginForm.classList.add('was-validated');
+        return;
+      }
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
 
       try {
         const res = await fetch(`${API_BASE_URL}/api/login`, {
           method: "POST",
-          credentials: "include",
+          credentials: "include",  // Important for cookie sessions
           headers: {
             "Content-Type": "application/json"
           },
@@ -203,8 +206,8 @@
           alert("❌ " + data.message);
         }
       } catch (err) {
+        console.error("⚠️ Could not connect to backend:", err);
         alert("⚠️ Could not connect to backend.");
-        console.error(err);
       }
     });
   </script>
