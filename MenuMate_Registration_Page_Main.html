@@ -18,35 +18,28 @@
       font-family: 'Oswald', sans-serif;
       padding: 2rem;
     }
-
     .form-control {
       background-color: #333;
       color: white;
       border: 1px solid #ccc;
     }
-
     .form-control::placeholder {
       color: #aaa;
     }
-
     .form-control:invalid {
       border-color: #dc3545;
     }
-
     .form-control:valid {
       border-color: #28a745;
     }
-
     .form-section {
       margin-bottom: 1.5rem;
     }
-
     #passwordStrength {
       height: 5px;
       background-color: red;
       transition: width 0.3s ease-in-out, background-color 0.3s;
     }
-
     #passwordFeedback {
       font-size: 0.9rem;
       margin-top: 0.3rem;
@@ -76,7 +69,7 @@
         <input type="email" id="email" class="form-control" required>
       </div>
 
-      <!-- Password + Strength -->
+      <!-- Password -->
       <div class="form-section">
         <label for="password">Password *</label>
         <input type="password" id="password" class="form-control" required minlength="6">
@@ -137,25 +130,21 @@
       <!-- Dietary Goal -->
       <div class="form-section">
         <label for="dietaryGoal">Dietary Goal (Max 300 Characters)</label>
-        <textarea class="form-control" id="dietaryGoal" rows="3" placeholder="E.g., lose weight, gain muscle, improve energy..." maxlength="300"></textarea>
+        <textarea id="dietaryGoal" class="form-control" rows="3" maxlength="300" placeholder="E.g., lose weight, gain muscle, improve energy..."></textarea>
       </div>
 
       <!-- Dietary Restrictions -->
       <div class="form-section">
         <label for="dietaryRestrictions">Dietary Restrictions or Preferences (Max 150 Characters)</label>
-        <input type="text" id="dietaryRestrictions" class="form-control" placeholder="e.g., Vegan, Gluten-free, Kosher" maxlength="150">
+        <input type="text" id="dietaryRestrictions" class="form-control" maxlength="150" placeholder="e.g., Vegan, Gluten-free, Kosher">
       </div>
-
 
       <!-- ExperiencePass Opt-in -->
       <div class="form-check mb-4">
-        <input class="form-check-input" type="checkbox" value="" id="experiencePassCheck" checked>
-        <label class="form-check-label experiencepass-label" for="experiencePassCheck">
+        <input class="form-check-input" type="checkbox" id="experiencePassCheck" checked>
+        <label class="form-check-label" for="experiencePassCheck">
           Opt in for ExperiencePass
         </label>
-        <div class="form-text text-light">
-          <em>ExperiencePass is a feature that allows your account to share basic and recent information such as your health progress, saved recipes or posts, recent achievements, restaurants visited, and food you’ve logged.</em>
-        </div>
       </div>
 
       <!-- Submit -->
@@ -163,7 +152,7 @@
     </form>
   </div>
 
-  <!-- ✅ Load config.js before backend logic -->
+  <!-- ✅ Load config.js first -->
   <script src="config.js"></script>
 
   <!-- Bootstrap JS -->
@@ -179,7 +168,6 @@
     passwordInput.addEventListener('input', () => {
       const val = passwordInput.value;
       let strength = 0;
-
       if (val.length >= 6) strength++;
       if (/[A-Z]/.test(val)) strength++;
       if (/[0-9]/.test(val)) strength++;
@@ -202,23 +190,36 @@
         return;
       }
 
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+      const data = {
+        email: document.getElementById("email").value,
+        password: document.getElementById("password").value,
+        firstName: document.getElementById("firstName").value,
+        lastName: document.getElementById("lastName").value,
+        dob: document.getElementById("dob").value,
+        heightFeet: document.getElementById("heightFeet").value,
+        heightInches: document.getElementById("heightInches").value,
+        weightLbs: document.getElementById("weightLbs").value,
+        gender: document.getElementById("gender").value,
+        activityLevel: document.getElementById("activityLevel").value,
+        dietaryGoal: document.getElementById("dietaryGoal").value,
+        dietaryRestrictions: document.getElementById("dietaryRestrictions").value,
+        experiencePassOptIn: document.getElementById("experiencePassCheck").checked
+      };
 
       try {
         const res = await fetch(`${API_BASE_URL}/api/register`, {
           method: "POST",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password })
+          body: JSON.stringify(data)
         });
 
-        const data = await res.json();
+        const resData = await res.json();
         if (res.ok) {
           alert("✅ Registration successful!");
           window.location.href = "https://kerolosassad.github.io/MenuMate/";
         } else {
-          alert("❌ " + data.message);
+          alert("❌ " + resData.message);
         }
       } catch (err) {
         alert("⚠️ Could not connect to backend.");
