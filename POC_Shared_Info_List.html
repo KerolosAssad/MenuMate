@@ -8,6 +8,7 @@
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet" />
+
   <script src="config.js"></script>
 
   <style>
@@ -72,8 +73,8 @@
     }
   </style>
 </head>
-
 <body>
+
   <div class="container">
     <div class="header">
       <h1>Shared Experiences With You</h1>
@@ -82,8 +83,10 @@
     <div id="sharedContainer" class="mt-4"></div>
   </div>
 
+  <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
+  <!-- JS Logic -->
   <script>
     const container = document.getElementById('sharedContainer');
     let currentUserEmail = null;
@@ -119,10 +122,12 @@
       loadNearbyExperiences();
     }
 
-    async function deleteShared() {
+    async function deleteShared(senderEmail) {
       await fetch(`${API_BASE_URL}/api/shared/delete`, {
         method: "POST",
-        credentials: "include"
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: senderEmail })
       });
       loadNearbyExperiences();
     }
@@ -140,7 +145,7 @@
         const res = await fetch(`${API_BASE_URL}/api/nearby_experiences`, { credentials: "include" });
         const nearby = await res.json();
 
-        if (!nearby.length) {
+        if (!Array.isArray(nearby) || !nearby.length) {
           container.innerHTML = "<p class='text-center text-light'>No nearby shared experiences available right now.</p>";
           return;
         }
@@ -154,7 +159,7 @@
           card.className = "shared-entry";
 
           card.innerHTML = `
-            <strong>From: ${name}</strong>
+            <strong>${name}</strong>
             <div class="entry-details">
               <p><strong>Recipes:</strong> ${exp.recipes || "N/A"}</p>
               <p><strong>Achievements:</strong> ${exp.achievements || "N/A"}</p>
@@ -163,8 +168,8 @@
                 <button class="btn-action btn-starred" onclick="event.stopPropagation(); toggleStar('${exp.email}')">
                   ${isStarred ? '★ Unstar' : '☆ Save'}
                 </button>
-                <button class="btn-action btn-delete" onclick="event.stopPropagation(); deleteShared()">
-                  🗑 Clear All
+                <button class="btn-action btn-delete" onclick="event.stopPropagation(); deleteShared('${exp.email}')">
+                  🗑 Delete
                 </button>
               </div>
             </div>
@@ -176,6 +181,7 @@
 
           container.appendChild(card);
         });
+
       } catch (err) {
         console.error("Error loading nearby shared experiences:", err);
         container.innerHTML = "<p class='text-danger'>Unable to load experiences at this time.</p>";
@@ -184,5 +190,6 @@
 
     loadNearbyExperiences();
   </script>
+
 </body>
 </html>
