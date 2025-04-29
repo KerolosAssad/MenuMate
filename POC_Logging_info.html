@@ -24,12 +24,6 @@
     .form-control::placeholder {
       color: #aaa;
     }
-    .form-control:invalid {
-      border-color: #dc3545;
-    }
-    .form-control:valid {
-      border-color: #28a745;
-    }
     .card {
       border: none;
       border-radius: 1rem;
@@ -137,8 +131,7 @@
 
         if (data.logged_in && data.email) {
           userEmail = data.email;
-          const namePart = userEmail.split("@")[0];
-          document.getElementById("userDisplay").textContent = namePart;
+          document.getElementById("userDisplay").textContent = data.display_name;
         } else {
           alert("⚠️ You must be logged in to use this page.");
           window.location.href = "https://kerolosassad.github.io/MenuMate/";
@@ -191,23 +184,6 @@
           return;
         }
 
-        if (data.shareConsent) {
-          const shareRes = await fetch(`${API_BASE_URL}/api/share`, {
-            method: "POST",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
-          });
-
-          if (!shareRes.ok) {
-            const error = await shareRes.json();
-            alert("❌ Error sharing experience: " + error.message);
-            return;
-          }
-        }
-
         alert("✅ Your experience has been logged!");
         form.reset();
 
@@ -216,6 +192,37 @@
         alert("⚠️ Could not connect to backend.");
       }
     });
+
+    // 🛰️ EXPERIENCE SHARE TRACKER (background location sending)
+    async function sendLocationPeriodically() {
+      if (!navigator.geolocation) return;
+
+      async function sendLocation() {
+        navigator.geolocation.getCurrentPosition(async (position) => {
+          const { latitude, longitude } = position.coords;
+
+          try {
+            await fetch(`${API_BASE_URL}/api/track_location`, {
+              method: "POST",
+              credentials: "include",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ latitude, longitude })
+            });
+          } catch (err) {
+            console.warn("⚠️ Could not send location:", err);
+          }
+        }, (err) => {
+          console.warn("⚠️ Geolocation permission denied or unavailable.", err);
+        });
+      }
+
+      // First immediate send
+      await sendLocation();
+      // Then every 30 seconds
+      setInterval(sendLocation, 30000);
+    }
+
+    sendLocationPeriodically();
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
