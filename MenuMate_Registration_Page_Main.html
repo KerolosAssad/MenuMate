@@ -32,6 +32,11 @@
     .form-control:valid {
       border-color: #28a745;
     }
+    .form-control:disabled {
+      background-color: #666 !important; /* Light grey for disabled fields */
+      color: #ccc !important;
+      opacity: 1;
+    }
     .form-section {
       margin-bottom: 1.5rem;
     }
@@ -69,8 +74,8 @@
         <input type="email" id="email" class="form-control" required>
       </div>
 
-      <!-- Password -->
-      <div class="form-section">
+      <!-- Password (will be hidden for Google users) -->
+      <div class="form-section" id="passwordSection">
         <label for="password">Password *</label>
         <input type="password" id="password" class="form-control" required minlength="6">
         <div id="passwordStrength"></div>
@@ -161,10 +166,12 @@
   <!-- Registration Logic -->
   <script>
     const form = document.getElementById('registrationForm');
+    const passwordSection = document.getElementById('passwordSection');
     const passwordInput = document.getElementById('password');
     const strengthBar = document.getElementById('passwordStrength');
     const feedback = document.getElementById('passwordFeedback');
 
+    // Update password strength meter
     passwordInput.addEventListener('input', () => {
       const val = passwordInput.value;
       let strength = 0;
@@ -182,6 +189,33 @@
       feedback.textContent = texts[strength - 1] || "";
     });
 
+    // Detect if user came from Google login
+    async function checkGoogleSignup() {
+      const params = new URLSearchParams(window.location.search);
+      const googleSignup = params.get('google_signup');
+
+      if (googleSignup === 'true') {
+        try {
+          const res = await fetch(`${API_BASE_URL}/api/user`, {
+            credentials: 'include'
+          });
+          const data = await res.json();
+          if (data.logged_in) {
+            document.getElementById('email').value = data.email;
+            document.getElementById('email').disabled = true;
+            passwordInput.value = "Google_OAuth_User";
+            passwordInput.disabled = true;
+            passwordSection.style.display = "none"; // 🧹 Hide password section completely
+          }
+        } catch (err) {
+          console.error('Error fetching Google user info', err);
+        }
+      }
+    }
+
+    checkGoogleSignup();
+
+    // Handle form submit
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
@@ -192,7 +226,7 @@
 
       const data = {
         email: document.getElementById("email").value,
-        password: document.getElementById("password").value,
+        password: passwordInput.value,
         firstName: document.getElementById("firstName").value,
         lastName: document.getElementById("lastName").value,
         dob: document.getElementById("dob").value,
