@@ -63,7 +63,6 @@
     }
   </style>
 </head>
-
 <body>
 
   <div class="container">
@@ -95,7 +94,7 @@
         data.forEach(exp => {
           const card = document.createElement('div');
           card.className = 'shared-entry';
-          const name = exp.name || (exp.email ? exp.email.split('@')[0] : "Anonymous");
+          const name = exp.name || exp.email.split('@')[0];
 
           card.innerHTML = `
             <strong>${name}</strong>
@@ -107,8 +106,8 @@
                 <button class="btn-action btn-starred" onclick="event.stopPropagation(); toggleStar('${exp.email}')">
                   ${exp.starred ? '★ Unstar' : '☆ Save'}
                 </button>
-                <button class="btn-action btn-delete" onclick="event.stopPropagation(); deleteAllShared()">
-                  🗑 Delete All
+                <button class="btn-action btn-delete" onclick="event.stopPropagation(); deleteOneShared('${exp.email}')">
+                  🗑 Delete
                 </button>
               </div>
             </div>
@@ -140,47 +139,44 @@
       }
     }
 
-    async function deleteAllShared() {
+    async function deleteOneShared(senderEmail) {
       try {
-        await fetch(`${API_BASE_URL}/api/shared/delete`, {
+        await fetch(`${API_BASE_URL}/api/shared/delete_one`, {
           method: 'POST',
-          credentials: 'include'
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: senderEmail })
         });
         fetchSharedExperiences();
       } catch (error) {
-        console.error('Error deleting shared experiences:', error);
+        console.error('Error deleting one shared experience:', error);
       }
     }
 
-    // 🛰️ EXPERIENCE SHARE TRACKER (background location sharing)
-    async function sendLocationPeriodically() {
+    async function sendLocation() {
       if (!navigator.geolocation) return;
-
-      async function sendLocation() {
-        navigator.geolocation.getCurrentPosition(async (position) => {
-          try {
-            const { latitude, longitude } = position.coords;
-            await fetch(`${API_BASE_URL}/api/track_location`, {
-              method: "POST",
-              credentials: "include",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ latitude, longitude })
-            });
-            await fetchSharedExperiences(); // Refresh nearby experiences
-          } catch (error) {
-            console.error('Error sending location:', error);
-          }
-        }, (error) => {
-          console.warn('⚠️ Geolocation permission denied.', error);
-        });
-      }
-
-      await sendLocation(); // Immediate
-      setInterval(sendLocation, 30000); // Every 30 seconds
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        try {
+          const { latitude, longitude } = position.coords;
+          await fetch(`${API_BASE_URL}/api/track_location`, {
+            method: "POST",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ latitude, longitude })
+          });
+          await fetchSharedExperiences();
+        } catch (error) {
+          console.error('Error sending location:', error);
+        }
+      }, (error) => {
+        console.warn('Geolocation permission denied.', error);
+      });
     }
 
-    sendLocationPeriodically();
-  </script>
+    // Regularly update location and refresh nearby experiences
+    setInterval(sendLocation, 30000); // every 30 seconds
 
+    sendLocation();
+  </script>
 </body>
 </html>
