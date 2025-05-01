@@ -122,7 +122,7 @@
 
     async function fetchUser() {
       try {
-        const res = await fetch(${API_BASE_URL}/api/user, {
+        const res = await fetch(`${API_BASE_URL}/api/user`, {
           method: "GET",
           credentials: "include"
         });
@@ -169,7 +169,7 @@
       };
 
       try {
-        const saveRes = await fetch(${API_BASE_URL}/api/experience, {
+        const saveRes = await fetch(`${API_BASE_URL}/api/experience`, {
           method: "POST",
           credentials: "include",
           headers: {
@@ -202,7 +202,7 @@
           const { latitude, longitude } = position.coords;
 
           try {
-            await fetch(${API_BASE_URL}/api/track_location, {
+            await fetch(`${API_BASE_URL}/api/track_location`, {
               method: "POST",
               credentials: "include",
               headers: { "Content-Type": "application/json" },
