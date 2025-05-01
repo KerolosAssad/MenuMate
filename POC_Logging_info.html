@@ -67,6 +67,7 @@
 </head>
 
 <body>
+
   <div class="container">
     <div class="header-flex mb-4">
       <h1 class="text-center text-sm-start m-0 w-100">Experience Share Log</h1>
@@ -115,11 +116,12 @@
 
   <script src="config.js"></script>
   <script>
+    // 🔑 Extract token from URL and store it
     const urlParams = new URLSearchParams(window.location.search);
     const tokenFromURL = urlParams.get("token");
     if (tokenFromURL) {
       localStorage.setItem("jwt_token", tokenFromURL);
-      history.replaceState(null, "", window.location.pathname);
+      history.replaceState(null, "", window.location.pathname); // Clean URL
     }
 
     const token = localStorage.getItem("jwt_token");
@@ -127,31 +129,33 @@
 
     async function fetchUser() {
       if (!token) {
-        console.warn("No JWT token found. Not redirecting.");
-        alert("⚠️ Not logged in. Token missing.");
+        alert("⚠️ Not logged in. Please sign in.");
+        window.location.href = "https://kerolosassad.github.io/MenuMate/";
         return;
       }
 
       try {
         const res = await fetch(`${API_BASE_URL}/api/user`, {
-          headers: { "Authorization": "Bearer " + token }
+          headers: {
+            "Authorization": "Bearer " + token
+          }
         });
 
         const data = await res.json();
-        console.log("User API response:", data);
 
         if (data.logged_in && data.email) {
           userEmail = data.email;
           document.getElementById("userDisplay").textContent = data.display_name;
         } else {
-          console.warn("Session expired or invalid. Server response:", data);
+          alert("⚠️ Session expired or invalid.");
           localStorage.removeItem("jwt_token");
-          alert("⚠️ Session issue: " + JSON.stringify(data));
+          window.location.href = "https://kerolosassad.github.io/MenuMate/";
         }
       } catch (err) {
         console.error("❌ Failed to fetch user info:", err);
         alert("⚠️ Could not verify user session.");
         localStorage.removeItem("jwt_token");
+        window.location.href = "https://kerolosassad.github.io/MenuMate/";
       }
     }
 
