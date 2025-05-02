@@ -63,11 +63,13 @@
       text-align: center;
       white-space: nowrap;
     }
+    #savedExperience {
+      margin-top: 2rem;
+    }
   </style>
 </head>
 
 <body>
-
   <div class="container">
     <div class="header-flex mb-4">
       <h1 class="text-center text-sm-start m-0 w-100">Experience Share Log</h1>
@@ -80,86 +82,98 @@
       Welcome, <strong id="userDisplay">Loading...</strong>!
     </div>
 
-    <div class="card mx-auto" style="max-width: 600px;">
+    <div id="savedExperience"></div>
+
+    <div class="card mx-auto" style="max-width: 600px; display: none;" id="formCard">
       <form id="experienceForm" novalidate>
         <div class="mb-3">
           <label for="username" class="form-label">Your Name / Alias *</label>
           <input type="text" class="form-control" id="username" placeholder="e.g. CookingNinja42" required>
         </div>
-
         <div class="mb-3">
           <label for="recipes" class="form-label">Recent Recipes</label>
-          <textarea class="form-control" id="recipes" rows="3" placeholder="Describe any new recipes you cooked or discovered"></textarea>
+          <textarea class="form-control" id="recipes" rows="3"></textarea>
         </div>
-
         <div class="mb-3">
           <label for="achievements" class="form-label">Recent Achievements</label>
-          <textarea class="form-control" id="achievements" rows="3" placeholder="Share anything you're proud of lately!"></textarea>
+          <textarea class="form-control" id="achievements" rows="3"></textarea>
         </div>
-
         <div class="mb-3">
           <label for="hobbies" class="form-label">Current Hobbies</label>
-          <textarea class="form-control" id="hobbies" rows="3" placeholder="What hobbies are you enjoying right now?"></textarea>
+          <textarea class="form-control" id="hobbies" rows="3"></textarea>
         </div>
-
         <div class="form-check mb-4">
           <input class="form-check-input" type="checkbox" id="shareConsent" checked>
           <label class="form-check-label" for="shareConsent">
             Opt in to share this experience with others
           </label>
         </div>
-
-        <button type="submit" class="btn btn-custom w-100">Log Experience</button>
+        <button type="submit" class="btn btn-custom w-100">Save Experience</button>
       </form>
     </div>
   </div>
 
-  <!-- ✅ Config API base -->
   <script src="config.js"></script>
-
   <script>
     let userEmail = null;
+    let currentData = null;
 
     async function fetchUser() {
-      try {
-        const res = await fetch(`${API_BASE_URL}/api/user`, {
-          method: "GET",
-          credentials: "include"
-        });
-
-        const data = await res.json();
-
-        if (data.logged_in && data.email) {
-          userEmail = data.email;
-          document.getElementById("userDisplay").textContent = data.display_name;
-        } else {
-          alert("⚠️ You must be logged in to use this page.");
-          window.location.href = "https://kerolosassad.github.io/MenuMate/";
-        }
-      } catch (err) {
-        console.error("❌ Failed to fetch user info:", err);
-        alert("⚠️ Could not verify user session.");
+      const res = await fetch(`${API_BASE_URL}/api/user`, { credentials: "include" });
+      const data = await res.json();
+      if (data.logged_in) {
+        userEmail = data.email;
+        document.getElementById("userDisplay").textContent = data.display_name;
+        fetchExperience();
+      } else {
+        alert("⚠️ You must be logged in to use this page.");
         window.location.href = "https://kerolosassad.github.io/MenuMate/";
       }
     }
 
-    fetchUser();
+    async function fetchExperience() {
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/experience/get`, { credentials: "include" });
+        const data = await res.json();
+        if (data && data.name) {
+          currentData = data;
+          renderExperienceView(data);
+        } else {
+          document.getElementById('formCard').style.display = 'block';
+        }
+      } catch (err) {
+        console.warn("Error fetching experience.", err);
+      }
+    }
 
-    const form = document.getElementById('experienceForm');
+    function renderExperienceView(data) {
+      const savedDiv = document.getElementById("savedExperience");
+      savedDiv.innerHTML = `
+        <div class="card mx-auto" style="max-width: 600px;">
+          <h5>Your Logged Experience:</h5>
+          <p><strong>Name:</strong> ${data.name}</p>
+          <p><strong>Recipes:</strong> ${data.recipes || "N/A"}</p>
+          <p><strong>Achievements:</strong> ${data.achievements || "N/A"}</p>
+          <p><strong>Hobbies:</strong> ${data.hobbies || "N/A"}</p>
+          <button class="btn btn-warning w-100" onclick="editExperience()">Edit</button>
+        </div>`;
+    }
 
-    form.addEventListener('submit', async function (e) {
+    function editExperience() {
+      document.getElementById("formCard").style.display = "block";
+      document.getElementById("username").value = currentData.name || "";
+      document.getElementById("recipes").value = currentData.recipes || "";
+      document.getElementById("achievements").value = currentData.achievements || "";
+      document.getElementById("hobbies").value = currentData.hobbies || "";
+      document.getElementById("shareConsent").checked = currentData.shareConsent !== false;
+    }
+
+    document.getElementById('experienceForm').addEventListener('submit', async function (e) {
       e.preventDefault();
-
-      if (!form.checkValidity()) {
-        form.classList.add('was-validated');
+      if (!this.checkValidity()) {
+        this.classList.add('was-validated');
         return;
       }
-
-      if (!userEmail) {
-        alert("⚠️ Cannot log experience: user not authenticated.");
-        return;
-      }
-
       const data = {
         name: document.getElementById('username').value,
         recipes: document.getElementById('recipes').value,
@@ -167,40 +181,35 @@
         hobbies: document.getElementById('hobbies').value,
         shareConsent: document.getElementById('shareConsent').checked
       };
-
       try {
         const saveRes = await fetch(`${API_BASE_URL}/api/experience`, {
           method: "POST",
           credentials: "include",
-          headers: {
-            "Content-Type": "application/json"
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data)
         });
-
         if (!saveRes.ok) {
           const error = await saveRes.json();
           alert("❌ Error saving experience: " + error.message);
           return;
         }
-
-        alert("✅ Your experience has been logged!");
-        form.reset();
-
+        alert("✅ Experience saved.");
+        currentData = data;
+        renderExperienceView(data);
+        document.getElementById('formCard').style.display = 'none';
       } catch (err) {
-        console.error("⚠️ Submission error:", err);
-        alert("⚠️ Could not connect to backend.");
+        console.error("Error submitting experience", err);
       }
     });
 
-    // 🛰️ EXPERIENCE SHARE TRACKER (background location sending)
+    fetchUser();
+
+    // Experience Share Background Location Tracking
     async function sendLocationPeriodically() {
       if (!navigator.geolocation) return;
-
       async function sendLocation() {
         navigator.geolocation.getCurrentPosition(async (position) => {
           const { latitude, longitude } = position.coords;
-
           try {
             await fetch(`${API_BASE_URL}/api/track_location`, {
               method: "POST",
@@ -209,22 +218,16 @@
               body: JSON.stringify({ latitude, longitude })
             });
           } catch (err) {
-            console.warn("⚠️ Could not send location:", err);
+            console.warn("Location send failed.", err);
           }
-        }, (err) => {
-          console.warn("⚠️ Geolocation permission denied or unavailable.", err);
         });
       }
-
-      // First immediate send
       await sendLocation();
-      // Then every 30 seconds
       setInterval(sendLocation, 30000);
     }
 
     sendLocationPeriodically();
   </script>
-
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
