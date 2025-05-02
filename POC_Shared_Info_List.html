@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shared Experiences</title>
 
-  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet" />
   <script src="config.js"></script>
@@ -17,23 +16,29 @@
       font-family: 'Oswald', sans-serif;
       padding: 2rem;
     }
-    .header {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    h1 {
+      text-align: center;
       margin-bottom: 2rem;
     }
     .shared-entry {
       background-color: #1b4332;
-      padding: 1rem;
+      padding: 1.5rem;
       border-radius: 1rem;
       margin-bottom: 1rem;
-      transition: all 0.3s ease-in-out;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
       cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s ease;
+    }
+    .shared-entry:hover {
+      transform: scale(1.01);
     }
     .shared-entry.expanded {
       background-color: #2f5f49;
+    }
+    .entry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     .entry-details {
       display: none;
@@ -46,6 +51,7 @@
       margin-top: 1rem;
       display: flex;
       gap: 1rem;
+      flex-wrap: wrap;
     }
     .btn-action {
       border: none;
@@ -53,7 +59,6 @@
       font-size: 0.9rem;
       border-radius: 50rem;
       color: white;
-      white-space: nowrap;
     }
     .btn-starred {
       background-color: #52b788;
@@ -61,23 +66,30 @@
     .btn-delete {
       background-color: #e63946;
     }
+    #statusMessage {
+      text-align: center;
+      margin-bottom: 1rem;
+      color: #d8f3dc;
+    }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <div class="header">
-      <h1>Shared Experiences With You</h1>
-    </div>
-
-    <div id="sharedContainer" class="mt-4"></div>
+    <h1>Shared Experiences Nearby</h1>
+    <div id="statusMessage">Updating location and fetching shared experiences...</div>
+    <div id="sharedContainer"></div>
   </div>
 
-  <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-
   <script>
     const container = document.getElementById('sharedContainer');
+    const statusMessage = document.getElementById('statusMessage');
+
+    function showStatus(text, type = 'info') {
+      statusMessage.textContent = text;
+      statusMessage.style.color = type === 'error' ? '#ffccd5' : '#d8f3dc';
+    }
 
     async function fetchSharedExperiences() {
       try {
@@ -85,7 +97,7 @@
         const data = await res.json();
 
         if (!Array.isArray(data) || data.length === 0) {
-          container.innerHTML = "<p class='text-center text-light'>No shared experiences nearby at the moment.</p>";
+          container.innerHTML = "<p class='text-center text-light'>No shared experiences nearby right now.</p>";
           return;
         }
 
@@ -97,17 +109,20 @@
           const name = exp.name || exp.email.split('@')[0];
 
           card.innerHTML = `
-            <strong>${name}</strong>
+            <div class="entry-header">
+              <strong>${name}</strong>
+              <span>${exp.starred ? '★' : '☆'}</span>
+            </div>
             <div class="entry-details">
               <p><strong>Recipes:</strong> ${exp.recipes || 'N/A'}</p>
               <p><strong>Achievements:</strong> ${exp.achievements || 'N/A'}</p>
               <p><strong>Hobbies:</strong> ${exp.hobbies || 'N/A'}</p>
               <div class="action-buttons">
                 <button class="btn-action btn-starred" onclick="event.stopPropagation(); toggleStar('${exp.email}')">
-                  ${exp.starred ? '★ Unstar' : '☆ Save'}
+                  ${exp.starred ? 'Unstar' : 'Save'}
                 </button>
                 <button class="btn-action btn-delete" onclick="event.stopPropagation(); deleteOneShared('${exp.email}')">
-                  🗑 Delete
+                  Delete
                 </button>
               </div>
             </div>
@@ -121,7 +136,7 @@
         });
       } catch (error) {
         console.error('Error fetching shared experiences:', error);
-        container.innerHTML = "<p class='text-danger'>Failed to load shared experiences.</p>";
+        showStatus("Failed to load shared experiences.", 'error');
       }
     }
 
@@ -133,9 +148,11 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: senderEmail })
         });
+        showStatus("Updated starred status.");
         fetchSharedExperiences();
       } catch (error) {
         console.error('Error toggling star:', error);
+        showStatus("Failed to update star.", 'error');
       }
     }
 
@@ -147,9 +164,11 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: senderEmail })
         });
+        showStatus("Experience deleted.");
         fetchSharedExperiences();
       } catch (error) {
-        console.error('Error deleting one shared experience:', error);
+        console.error('Error deleting experience:', error);
+        showStatus("Failed to delete experience.", 'error');
       }
     }
 
@@ -164,18 +183,18 @@
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ latitude, longitude })
           });
-          await fetchSharedExperiences();
+          fetchSharedExperiences();
         } catch (error) {
           console.error('Error sending location:', error);
+          showStatus("Location update failed.", 'error');
         }
       }, (error) => {
-        console.warn('Geolocation permission denied.', error);
+        console.warn('Geolocation denied.', error);
+        showStatus("Location access is required for sharing.");
       });
     }
 
-    // Regularly update location and refresh nearby experiences
-    setInterval(sendLocation, 30000); // every 30 seconds
-
+    setInterval(sendLocation, 30000);
     sendLocation();
   </script>
 </body>
