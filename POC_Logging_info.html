@@ -84,7 +84,11 @@
 
     <div id="savedExperience"></div>
 
-    <div class="card mx-auto" style="max-width: 600px; display: none;" id="formCard">
+    <div class="card mx-auto mt-4" style="max-width: 600px; display: none;" id="formCard">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="mb-0">Edit Your Experience</h5>
+        <button class="btn btn-sm btn-outline-light" onclick="cancelEdit()">✖ Cancel</button>
+      </div>
       <form id="experienceForm" novalidate>
         <div class="mb-3">
           <label for="username" class="form-label">Your Name / Alias *</label>
@@ -150,12 +154,14 @@
       const savedDiv = document.getElementById("savedExperience");
       savedDiv.innerHTML = `
         <div class="card mx-auto" style="max-width: 600px;">
-          <h5>Your Logged Experience:</h5>
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h5 class="mb-0">Your Logged Experience</h5>
+            <button class="btn btn-sm btn-outline-light" onclick="editExperience()">✏ Edit</button>
+          </div>
           <p><strong>Name:</strong> ${data.name}</p>
           <p><strong>Recipes:</strong> ${data.recipes || "N/A"}</p>
           <p><strong>Achievements:</strong> ${data.achievements || "N/A"}</p>
           <p><strong>Hobbies:</strong> ${data.hobbies || "N/A"}</p>
-          <button class="btn btn-warning w-100" onclick="editExperience()">Edit</button>
         </div>`;
     }
 
@@ -166,6 +172,10 @@
       document.getElementById("achievements").value = currentData.achievements || "";
       document.getElementById("hobbies").value = currentData.hobbies || "";
       document.getElementById("shareConsent").checked = currentData.shareConsent !== false;
+    }
+
+    function cancelEdit() {
+      document.getElementById("formCard").style.display = "none";
     }
 
     document.getElementById('experienceForm').addEventListener('submit', async function (e) {
@@ -196,7 +206,7 @@
         alert("✅ Experience saved.");
         currentData = data;
         renderExperienceView(data);
-        document.getElementById('formCard').style.display = 'none';
+        cancelEdit();
       } catch (err) {
         console.error("Error submitting experience", err);
       }
@@ -204,7 +214,6 @@
 
     fetchUser();
 
-    // Experience Share Background Location Tracking
     async function sendLocationPeriodically() {
       if (!navigator.geolocation) return;
       async function sendLocation() {
