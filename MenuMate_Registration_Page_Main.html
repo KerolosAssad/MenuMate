@@ -51,7 +51,6 @@
     <h1 class="mb-4 text-center">MenuMate Registration</h1>
 
     <form id="registrationForm" novalidate>
-      <!-- Name -->
       <div class="row mb-3">
         <div class="col">
           <label for="firstName">First Name *</label>
@@ -63,13 +62,11 @@
         </div>
       </div>
 
-      <!-- Email -->
       <div class="form-section">
         <label for="email">Email *</label>
         <input type="email" id="email" class="form-control" required>
       </div>
 
-      <!-- Password -->
       <div class="form-section">
         <label for="password">Password *</label>
         <input type="password" id="password" class="form-control" required minlength="6">
@@ -77,13 +74,11 @@
         <div id="passwordFeedback"></div>
       </div>
 
-      <!-- Date of Birth -->
       <div class="form-section">
         <label for="dob">Date of Birth *</label>
         <input type="date" id="dob" class="form-control" required>
       </div>
 
-      <!-- Height and Weight -->
       <div class="row mb-3">
         <div class="col">
           <label for="heightFeet">Height *</label>
@@ -102,7 +97,6 @@
         </div>
       </div>
 
-      <!-- Gender -->
       <div class="form-section">
         <label for="gender">Gender *</label>
         <select id="gender" class="form-control" required>
@@ -114,7 +108,6 @@
         </select>
       </div>
 
-      <!-- Activity Level -->
       <div class="form-section">
         <label for="activityLevel">Activity Level *</label>
         <select id="activityLevel" class="form-control" required>
@@ -127,19 +120,16 @@
         </select>
       </div>
 
-      <!-- Dietary Goal -->
       <div class="form-section">
         <label for="dietaryGoal">Dietary Goal (Max 300 Characters)</label>
         <textarea id="dietaryGoal" class="form-control" rows="3" maxlength="300" placeholder="E.g., lose weight, gain muscle, improve energy..."></textarea>
       </div>
 
-      <!-- Dietary Restrictions -->
       <div class="form-section">
         <label for="dietaryRestrictions">Dietary Restrictions or Preferences (Max 150 Characters)</label>
         <input type="text" id="dietaryRestrictions" class="form-control" maxlength="150" placeholder="e.g., Vegan, Gluten-free, Kosher">
       </div>
 
-      <!-- ExperiencePass Opt-in -->
       <div class="form-check mb-4">
         <input class="form-check-input" type="checkbox" id="experiencePassCheck" checked>
         <label class="form-check-label" for="experiencePassCheck">
@@ -147,19 +137,34 @@
         </label>
       </div>
 
-      <!-- Submit -->
       <button type="submit" class="btn btn-success w-100">Create an Account</button>
     </form>
   </div>
 
-  <!-- ✅ Load config.js first -->
   <script src="config.js"></script>
-
-  <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Registration Logic -->
   <script>
+    window.onload = () => {
+      const params = new URLSearchParams(window.location.search);
+      const emailParam = params.get("email");
+      const fromGoogle = params.get("fromGoogle") === "true";
+
+      const emailField = document.getElementById("email");
+      const passwordField = document.getElementById("password");
+
+      if (fromGoogle && emailParam) {
+        emailField.value = emailParam;
+        emailField.readOnly = true;
+
+        passwordField.disabled = true;
+        passwordField.removeAttribute("required");
+        passwordField.placeholder = "Password not required (Google login)";
+        document.getElementById("passwordStrength").style.display = "none";
+        document.getElementById("passwordFeedback").style.display = "none";
+      }
+    };
+
     const form = document.getElementById('registrationForm');
     const passwordInput = document.getElementById('password');
     const strengthBar = document.getElementById('passwordStrength');
@@ -190,9 +195,12 @@
         return;
       }
 
+      const params = new URLSearchParams(window.location.search);
+      const fromGoogle = params.get("fromGoogle") === "true";
+
       const data = {
         email: document.getElementById("email").value,
-        password: document.getElementById("password").value,
+        password: fromGoogle ? "" : document.getElementById("password").value,
         firstName: document.getElementById("firstName").value,
         lastName: document.getElementById("lastName").value,
         dob: document.getElementById("dob").value,
