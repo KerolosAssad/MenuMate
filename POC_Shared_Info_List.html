@@ -135,7 +135,7 @@
         const data = await res.json();
 
         if (!Array.isArray(data) || data.length === 0) {
-          container.innerHTML = "<p class='text-center text-light-placeholder'>No shared experiences nearby right now.</p>";
+          container.innerHTML = "<p class='text-center fw-bold' style='color: #5D9C59;'>No shared experiences nearby right now.</p>";
           return;
         }
 
