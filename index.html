@@ -3,9 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MenuMate Login</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <title>MenuMate | Login</title>
+
+  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="assets/css/style.css" />
+
   <style>
     body {
       margin: 0;
@@ -18,7 +23,6 @@
       position: relative;
     }
 
-    /* Preloader */
     .preloader {
       background-color: #f9fafc;
       width: 100%;
@@ -133,23 +137,20 @@
       background-color: #469c3a;
     }
 
-    .btn.secondary {
-      background: #fff;
-      color: #5AAC4E;
-      border: 1px solid #5AAC4E;
-    }
-
-    .btn.secondary:hover {
-      background-color: #5AAC4E;
-      color: #fff;
-    }
-
     .btn.google {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
       font-weight: 500;
+      background: #fff;
+      color: #5AAC4E;
+      border: 1px solid #5AAC4E;
+    }
+
+    .btn.google:hover {
+      background-color: #5AAC4E;
+      color: #fff;
     }
 
     .note {
@@ -187,22 +188,24 @@
     <div class="login-right">
       <img src="assets/MenuMate_simplified_Logo.png" alt="MenuMate Logo" class="logo" />
       <h2>Welcome Back</h2>
-      <form id="authForm">
-        <input type="text" id="name" placeholder="Name (for Sign Up)" />
+      <form id="loginForm">
         <input type="email" id="email" placeholder="Email" required />
         <input type="password" id="password" placeholder="Password" required />
-
         <button type="submit" class="btn">Login</button>
-        <button type="button" id="signupBtn" class="btn secondary">Sign Up</button>
-        <button type="button" class="btn google">
+        <button type="button" id="googleLoginBtn" class="btn google">
           <img src="assets/img/google-icon.png" alt="Google" style="width: 20px;" />
           Continue with Google
         </button>
       </form>
-      <p class="note">Please sign up before logging in</p>
+
+      <p class="note">
+        Don't have an account?
+        <a href="https://kerolosassad.github.io/MenuMate/MenuMate_Registration_Page_Main.html" style="color: #5AAC4E;">Register here</a>
+      </p>
     </div>
   </div>
 
+  <!-- Preloader Script -->
   <script>
     window.addEventListener('load', () => {
       document.getElementById('preloader').style.display = 'none';
@@ -210,10 +213,46 @@
     });
   </script>
 
-  <!-- Config first -->
+  <!-- Config First -->
   <script src="config.js"></script>
 
-  <!-- Auth logic -->
-  <script src="assets/js/auth.js"></script>
+  <!-- Auth Logic -->
+  <script>
+    const loginForm = document.getElementById("loginForm");
+
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/login`, {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          alert("✅ Login successful! Redirecting...");
+          window.location.href = "https://kerolosassad.github.io/MenuMate/POC_Logging_info.html";
+        } else {
+          alert("❌ " + data.message);
+        }
+      } catch (err) {
+        console.error("⚠️ Could not connect to backend:", err);
+        alert("⚠️ Could not connect to backend.");
+      }
+    });
+
+    document.getElementById("googleLoginBtn").addEventListener("click", () => {
+      window.location.href = `${API_BASE_URL}/auth/google`;
+    });
+  </script>
 </body>
 </html>
