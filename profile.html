@@ -1,300 +1,339 @@
 <!DOCTYPE html>
-<html class="no-js" lang="zxx">
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="x-ua-compatible" content="ie=edge" />
-  <title>MenuMate | Profile</title>
-  <meta name="description" content="Your recipe posts, likes, and bio" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="manifest" href="site.webmanifest" />
-  <link rel="shortcut icon" type="image/x-icon" href="assets/img/MenuMate_Logo.png" />
+  <title>Experience Share Logger</title>
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
-    <link rel="stylesheet" href="assets/css/slicknav.css" />
-    <link rel="stylesheet" href="assets/css/flaticon.css" />
-    <link rel="stylesheet" href="assets/css/gijgo.css" />
-    <link rel="stylesheet" href="assets/css/animate.min.css" />
-    <link rel="stylesheet" href="assets/css/animated-headline.css" />
-    <link rel="stylesheet" href="assets/css/magnific-popup.css" />
-    <link rel="stylesheet" href="assets/css/fontawesome-all.min.css" />
-    <link rel="stylesheet" href="assets/css/themify-icons.css" />
-    <link rel="stylesheet" href="assets/css/slick.css" />
-    <link rel="stylesheet" href="assets/css/nice-select.css" />
-    <link rel="stylesheet" href="assets/css/style.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <style>
+    body {
+      background-color: #f0fdf4;
+      font-family: 'Poppins', sans-serif;
+      padding: 2rem;
+      color: #333;
+    }
+
+    h1 {
+      color: #5AAC4E;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+
+    .header-flex {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    @media (min-width: 576px) {
+      .header-flex {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+
+    .btn-share {
+      min-width: 220px;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    .card {
+      background-color: #ffffff;
+      color: #333;
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      border: none;
+    }
+
+    .form-control {
+      background-color: #f9fdfb;
+      color: #000;
+      border: 1px solid #ccc;
+    }
+
+    .form-control::placeholder {
+      color: #777;
+    }
+
+    .btn-custom {
+      background-color: #5AAC4E;
+      color: white;
+      border: none;
+      font-weight: 600;
+    }
+
+    .btn-custom:hover {
+      background-color: #469c3a;
+    }
+
+    .btn-outline-dark {
+      border-color: #5AAC4E;
+      color: #5AAC4E;
+    }
+
+    .btn-outline-dark:hover {
+      background-color: #5AAC4E;
+      color: #fff;
+    }
+
+    .welcome-msg {
+      font-size: 1.1rem;
+      font-weight: 500;
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #444;
+    }
+
+    #savedExperience {
+      margin-top: 2rem;
+    }
+
+    #cancelBtn {
+      display: none;
+    }
+
+    .form-section {
+      margin-bottom: 1.25rem;
+    }
+
+    .btn-sm i {
+      margin-left: 4px;
+    }
+
+    .text-muted label {
+      font-size: 0.9rem;
+    }
+
+    .btn-cancel {
+      font-size: 0.9rem;
+      padding: 0.3rem 0.75rem;
+    }
+
+    @media (max-width: 576px) {
+      .card {
+        padding: 1.5rem;
+      }
+    }
+  </style>
 </head>
+
 <body>
-  <!-- Header -->
-  <header>
-    <div class="header-area">
-      <div class="main-header header-sticky">
-        <div class="container-fluid">
-          <div class="row align-items-center">
-            <div class="col-xl-2 col-lg-2 col-md-1">
-              <div class="logo">
-                <a href="MenuMate_LandingPage.html"><img src="assets/img/logo/logo.png" alt="MenuMate" /></a>
-              </div>
-            </div>
-            <div class="col-xl-10 col-lg-10 col-md-10">
-              <div class="menu-main d-flex align-items-center justify-content-end">
-                <nav class="main-menu f-right d-none d-lg-block">
-                  <ul id="navigation">
-                    <li><a href="explore.html">Explore</a></li>
-                    <li><a href="nutrition.html">Nutrition</a></li>
-                    <li><a class="active" href="profile.html">Profile</a></li>
-                  </ul>
-                </nav>
-                <div class="header-right-btn f-right d-none d-lg-block ml-15">
-                  <a href="#" class="btn header-btn">Log In</a>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 d-block d-lg-none">
-              <div class="mobile_menu"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <main>
-    <!-- Hero -->
-    <div class="slider-area slider-area2">
-      <div class="single-slider d-flex align-items-center slider-height2">
-        <div class="container">
-          <div class="row align-items-center">
-            <div class="col-lg-8">
-              <div class="hero-wrapper">
-                <div class="hero__caption">
-                  <h1>Your Profile</h1>
-                  <p>View your recipes and the ones you’ve liked.</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-4 text-center">
-              <div class="avatar-circle mb-3">
-                <img src="assets/img/profile/avatar-placeholder.png" alt="Avatar" class="img-fluid rounded-circle" />
-              </div>
-              <p>@yourusername</p>
-            </div>
-          </div>
-        </div>
-      </div>
+  <div class="container">
+    <div class="header-flex mb-4">
+      <h1 class="text-center text-sm-start m-0 w-100">Experience Share Log</h1>
+      <button class="btn btn-outline-dark rounded-pill px-4 py-2 btn-share" onclick="window.location.href='POC_Shared_Info_List.html'">
+        🔍 Check for Shares
+      </button>
     </div>
 
-    <!-- Your Posts -->
-    <!-- Added top margin to clear hero slant -->
-    <section class="service-area section-padding40 mt-5">
-    <section class="service-area section-padding40">
-      <div class="container">
-        <div class="section-tittle text-center mb-50">
-          <h2>Your Posts</h2>
-        </div>
-        <div class="row" id="your-recipes">
-          <!-- Post 1 -->
-          <div class="col-lg-4 col-md-6 mb-50">
-            <div class="single-cat text-center" data-recipe-id="1">
-              <div class="cat-cap">
-                <h5><a href="#">Spinach and Feta Breakfast Scramble</a></h5>
-                <p>A fluffy scramble loaded with spinach, tangy feta, and fresh tomato.</p>
-                <a href="#" class="plus-btn" data-toggle="modal" data-target="#recipeModal"><i class="ti-plus"></i></a>
-              </div>
-            </div>
-          </div>
-          <!-- Post 2 -->
-          <div class="col-lg-4 col-md-6 mb-50">
-            <div class="single-cat text-center" data-recipe-id="2">
-              <div class="cat-cap">
-                <h5><a href="#">Quinoa and Black Bean Salad</a></h5>
-                <p>A zesty, protein-rich salad with quinoa, black beans, fresh veggies, and lime‑cilantro dressing.</p>
-                <a href="#" class="plus-btn" data-toggle="modal" data-target="#recipeModal"><i class="ti-plus"></i></a>
-              </div>
-            </div>
-          </div>
-          <!-- Post 3 -->
-          <div class="col-lg-4 col-md-6 mb-50">
-            <div class="single-cat text-center" data-recipe-id="3">
-              <div class="cat-cap">
-                <h5><a href="#">Grilled Chicken and Vegetable Kabobs</a></h5>
-                <p>Juicy chicken skewers with colorful veggies, marinated in a lemon‑garlic herb blend.</p>
-                <a href="#" class="plus-btn" data-toggle="modal" data-target="#recipeModal"><i class="ti-plus"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Liked Recipes -->
-    <section class="service-area section-padding40">
-      <div class="container">
-        <div class="section-tittle text-center mb-50">
-          <h2>Liked Recipes</h2>
-        </div>
-        <div class="row" id="liked-recipes">
-          <!-- Liked 1 -->
-          <div class="col-lg-4 col-md-6 mb-50">
-            <div class="single-cat text-center" data-recipe-id="4">
-              <div class="cat-cap">
-                <h5><a href="#">Baked Salmon with Herb Crust</a></h5>
-                <p>Tender salmon fillets topped with a crispy herb breadcrumb crust.</p>
-                <a href="#" class="plus-btn" data-toggle="modal" data-target="#recipeModal"><i class="ti-plus"></i></a>
-              </div>
-            </div>
-          </div>
-          <!-- Liked 2 -->
-          <div class="col-lg-4 col-md-6 mb-50">
-            <div class="single-cat text-center" data-recipe-id="5">
-              <div class="cat-cap">
-                <h5><a href="#">Apple and Walnut Spinach Salad</a></h5>
-                <p>Crisp spinach tossed with sweet apples, crunchy walnuts, and creamy cheese.</p>
-                <a href="#" class="plus-btn" data-toggle="modal" data-target="#recipeModal"><i class="ti-plus"></i></a>
-              </div>
-            </div>
-          </div>
-          <!-- Liked 3 -->
-          <div class="col-lg-4 col-md-6 mb-50">
-            <div class="single-cat text-center" data-recipe-id="6">
-              <div class="cat-cap">
-                <h5><a href="#">Cauliflower Fried Rice</a></h5>
-                <p>A low-carb twist on fried rice, loaded with veggies and scrambled egg.</p>
-                <a href="#" class="plus-btn" data-toggle="modal" data-target="#recipeModal"><i class="ti-plus"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Modal -->
-    <div class="modal fade" id="recipeModal" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-        <div class="modal-content green-modal">
-          <div class="modal-header">
-            <h5 class="modal-title" id="recipeModalLabel"></h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
-          </div>
-          <div class="modal-body">
-            <img id="recipeModalImg" src="" alt="" class="img-fluid mb-3" />
-            <p id="recipeModalDesc"></p>
-            <div id="recipeModalRecipe" class="mb-3"></div>
-            <div id="recipeModalNutrition" class="mb-3"></div>
-            <div class="d-flex mb-3">
-              <button id="likeBtn" class="btn btn-light mr-2"><i class="far fa-heart"></i> <span id="likeCount">0</span></button>
-              <button id="commentToggle" class="btn btn-light"><i class="far fa-comment"></i> Comment</button>
-            </div>
-            <div id="commentsList" class="mb-3"></div>
-            <div id="commentForm" class="input-group mb-3" style="display:none;">
-              <input type="text" id="commentInput" class="form-control" placeholder="Write a comment…" />
-              <div class="input-group-append"><button id="submitComment" class="btn btn-primary">Post</button></div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="welcome-msg">
+      Welcome, <strong id="userDisplay">Loading...</strong>!
     </div>
 
-  </main>
+    <div id="savedExperience"></div>
+    <div id="nearbyExperiences" class="mt-5"></div>
 
-  <!-- Footer -->
-  <footer>
-    <div
-      class="footer-wrappr section-bg3"
-      data-background="assets/img/gallery/footer-bg.png"
-    >
-      <div class="footer-area footer-padding">
-        <div class="container">
-          <div class="row justify-content-between">
-            <div class="col-xl-8 col-lg-8 col-md-6 col-sm-12">
-              <div class="single-footer-caption mb-50">
-                <!-- logo -->
-                <div class="footer-logo mb-25">
-                  <a href="index.html"
-                    ><img
-                      src="assets/img/logo/logo2-removebg-preview.png"
-                      alt=""
-                  /></a>
-                </div>
-                <div class="header-area">
-                  <div class="main-header main-header2">
-                    <div
-                      class="menu-main d-flex align-items-center justify-content-start"
-                    >
-                      <!-- Main-menu -->
-                      <div class="main-menu main-menu2">
-                        <nav>
-                          <ul>
-                            <li><a href="explore.html">Explore</a></li>
-                            <li><a href="nutrition.html">Nutrition</a></li>
-                            <li><a href="profile.html">Profile</a></li>
-                          </ul>
-                        </nav>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+    <div class="card mx-auto mt-4" style="max-width: 650px; display: none;" id="formCard">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="mb-0" id="formTitle">Log Your Experience</h5>
+        <button class="btn btn-outline-dark btn-cancel" id="cancelBtn" onclick="cancelEdit()">✖ Cancel</button>
       </div>
-      <!-- footer-bottom area -->
-      <div class="footer-bottom-area">
-        <div class="container">
-          <div class="footer-border">
-            <div class="row">
-              <div class="col-xl-10">
-                <div class="footer-copy-right">
-                  <p>
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    &copy;
-                    <script>
-                      document.write(new Date().getFullYear());
-                    </script>
-                    MenuMate. All rights reserved.
-                    <i class="fa fa-heart" aria-hidden="true"></i> Eat clean.
-                    Share freely.
-
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+      <form id="experienceForm" novalidate>
+        <div class="form-section">
+          <label for="username" class="form-label">Your Name / Alias *</label>
+          <input type="text" class="form-control" id="username" placeholder="e.g. CookingNinja42" required />
         </div>
-      </div>
+        <div class="form-section">
+          <label for="goal" class="form-label">Dietary Goal</label>
+          <input type="text" class="form-control" id="goal" placeholder="e.g., Low-carb, Vegan, High-protein" />
+        </div>
+        <div class="form-section">
+          <label for="recipes" class="form-label">Recent Recipes</label>
+          <textarea class="form-control" id="recipes" rows="2" placeholder="E.g., Avocado Toast, Tofu Stir-fry"></textarea>
+        </div>
+        <div class="form-section">
+          <label for="achievements" class="form-label">Recent Achievements</label>
+          <textarea class="form-control" id="achievements" rows="2" placeholder="E.g., Reached calorie goal, tried a new diet"></textarea>
+        </div>
+        <div class="form-section">
+          <label for="hobbies" class="form-label">Current Hobbies</label>
+          <textarea class="form-control" id="hobbies" rows="2" placeholder="E.g., Hiking, Baking, Reading health blogs"></textarea>
+        </div>
+        <div class="form-check mb-4">
+          <input class="form-check-input" type="checkbox" id="shareConsent" checked />
+          <label class="form-check-label" for="shareConsent">
+            Opt in to share this experience with others
+          </label>
+        </div>
+        <button type="submit" class="btn btn-custom w-100">Save Experience</button>
+      </form>
     </div>
-  </footer>
+  </div>
 
-  <!-- Scripts -->
-  <script src="assets/js/vendor/modernizr-3.5.0.min.js"></script>
-  <script src="assets/js/vendor/jquery-1.12.4.min.js"></script>
-  <script src="assets/js/popper.min.js"></script>
-  <script src="assets/js/bootstrap.min.js"></script>
-  <script src="assets/js/jquery.slicknav.min.js"></script>
-  <script src="assets/js/owl.carousel.min.js"></script>
-  <script src="assets/js/slick.min.js"></script>
-  <script src="assets/js/wow.min.js"></script>
-  <script src="assets/js/jquery.magnific-popup.js"></script>
-  <script src="assets/js/gijgo.min.js"></script>
-  <script src="assets/js/jquery.nice-select.min.js"></script>
-  <script src="assets/js/jquery.sticky.js"></script>
-  <script src="assets/js/jquery.counterup.min.js"></script>
-  <script src="assets/js/waypoints.min.js"></script>
-  <script src="assets/js/jquery.countdown.min.js"></script>
-  <script src="assets/js/hover-direction-snake.min.js"></script>
-  <script src="assets/js/contact.js"></script>
-  <script src="assets/js/jquery.form.js"></script>
-  <script src="assets/js/jquery.validate.min.js"></script>
-  <script src="assets/js/mail-script.js"></script>
-  <script src="assets/js/jquery.ajaxchimp.min.js"></script>
-  <script src="assets/js/plugins.js"></script>
-  <script src="assets/js/main.js"></script>
-  <script src="assets/js/recipe.js"></script>
+  <script src="config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Login reinforcement and expirence sharing in the background -->
-    <script src="config.js"></script>
-    <script src="assets/js/session-guard.js"></script>
-  </body>
+  <script>
+    let userEmail = null;
+    let currentData = null;
+    const formCard = document.getElementById("formCard");
+    const cancelBtn = document.getElementById("cancelBtn");
+    const formTitle = document.getElementById("formTitle");
+
+    async function fetchUser() {
+      const res = await fetch(`${API_BASE_URL}/api/user`, { credentials: "include" });
+      const data = await res.json();
+      if (data.logged_in) {
+        userEmail = data.email;
+        document.getElementById("userDisplay").textContent = data.display_name;
+        fetchExperience();
+        fetchNearbyExperiences();
+      } else {
+        alert("⚠️ You must be logged in to use this page.");
+        window.location.href = "https://kerolosassad.github.io/MenuMate/";
+      }
+    }
+
+    async function fetchExperience() {
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/experience/get`, { credentials: "include" });
+        const data = await res.json();
+        if (data && data.name) {
+          currentData = data;
+          renderExperienceView(data);
+        } else {
+          formCard.style.display = 'block';
+          cancelBtn.style.display = 'none';
+          formTitle.textContent = "Log Your Experience";
+        }
+      } catch (err) {
+        console.warn("Error fetching experience.", err);
+      }
+    }
+
+    function renderExperienceView(data) {
+      const savedDiv = document.getElementById("savedExperience");
+      savedDiv.innerHTML = `
+        <div class="card mx-auto mb-4" style="max-width: 650px;">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h5 class="mb-0">Your Logged Experience</h5>
+            <button class="btn btn-sm btn-outline-dark" onclick="editExperience()">✏ Edit</button>
+          </div>
+          <p><strong>Name:</strong> ${data.name}</p>
+          <p><strong>Dietary Goal:</strong> ${data.goal || "N/A"}</p>
+          <p><strong>Recipes:</strong> ${data.recipes || "N/A"}</p>
+          <p><strong>Achievements:</strong> ${data.achievements || "N/A"}</p>
+          <p><strong>Hobbies:</strong> ${data.hobbies || "N/A"}</p>
+        </div>`;
+    }
+
+    function editExperience() {
+      formCard.style.display = "block";
+      cancelBtn.style.display = "inline-block";
+      formTitle.textContent = "Edit Your Experience";
+
+      document.getElementById("username").value = currentData.name || "";
+      document.getElementById("goal").value = currentData.goal || "";
+      document.getElementById("recipes").value = currentData.recipes || "";
+      document.getElementById("achievements").value = currentData.achievements || "";
+      document.getElementById("hobbies").value = currentData.hobbies || "";
+      document.getElementById("shareConsent").checked = currentData.shareConsent !== false;
+    }
+
+    function cancelEdit() {
+      formCard.style.display = "none";
+    }
+
+    document.getElementById('experienceForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      if (!this.checkValidity()) {
+        this.classList.add('was-validated');
+        return;
+      }
+
+      const data = {
+        name: document.getElementById('username').value,
+        goal: document.getElementById('goal').value,
+        recipes: document.getElementById('recipes').value,
+        achievements: document.getElementById('achievements').value,
+        hobbies: document.getElementById('hobbies').value,
+        shareConsent: document.getElementById('shareConsent').checked
+      };
+
+      try {
+        const saveRes = await fetch(`${API_BASE_URL}/api/experience`, {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        if (!saveRes.ok) {
+          const error = await saveRes.json();
+          alert("❌ Error saving experience: " + error.message);
+          return;
+        }
+
+        alert("✅ Experience saved.");
+        currentData = data;
+        renderExperienceView(data);
+        cancelEdit();
+      } catch (err) {
+        console.error("Error submitting experience", err);
+      }
+    });
+
+    async function fetchNearbyExperiences() {
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/experience/nearby`, { credentials: "include" });
+        const list = await res.json();
+        if (!list.length) return;
+
+        const nearbyDiv = document.getElementById("nearbyExperiences");
+        nearbyDiv.innerHTML = '<h4>Nearby Shared Experiences</h4>' + list.map(entry => `
+          <div class="card my-3 p-3">
+            <p><strong>${entry.name}</strong> (${entry.goal || "No goal specified"})</p>
+            <p><em>Recipes:</em> ${entry.recipes || "N/A"}</p>
+            <p><em>Achievements:</em> ${entry.achievements || "N/A"}</p>
+            <p><em>Hobbies:</em> ${entry.hobbies || "N/A"}</p>
+          </div>
+        `).join('');
+      } catch (err) {
+        console.warn("Could not load nearby experiences", err);
+      }
+    }
+
+    async function sendLocationPeriodically() {
+      if (!navigator.geolocation) return;
+      async function sendLocation() {
+        navigator.geolocation.getCurrentPosition(async (position) => {
+          const { latitude, longitude } = position.coords;
+          try {
+            await fetch(`${API_BASE_URL}/api/track_location`, {
+              method: "POST",
+              credentials: "include",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ latitude, longitude })
+            });
+          } catch (err) {
+            console.warn("Location send failed.", err);
+          }
+        });
+      }
+      await sendLocation();
+      setInterval(sendLocation, 30000);
+    }
+
+    fetchUser();
+    sendLocationPeriodically();
+  </script>
+</body>
 </html>
