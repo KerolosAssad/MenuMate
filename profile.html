@@ -46,7 +46,7 @@
                   </ul>
                 </nav>
                 <div class="header-right-btn f-right d-none d-lg-block ml-15">
-                  <a href="#" class="btn header-btn" id="logoutBtn">Log Out</a>
+                  <a href="#" class="btn header-btn" id="logoutBtn">Log In</a>
                 </div>
               </div>
             </div>
@@ -90,7 +90,26 @@
         <div class="section-tittle text-center mb-50">
           <h2>Your Posts</h2>
         </div>
-        <div class="row" id="your-recipes"></div>
+        <div class="row" id="your-recipes">
+          <div class="col-lg-4 col-md-6 mb-50">
+            <div class="single-cat text-center" data-recipe-id="1">
+              <div class="cat-cap">
+                <h5><a href="#">Spinach and Feta Breakfast Scramble</a></h5>
+                <p>A fluffy scramble loaded with spinach, tangy feta, and fresh tomato.</p>
+                <a href="#" class="plus-btn" data-toggle="modal" data-target="#recipeModal"><i class="ti-plus"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-50">
+            <div class="single-cat text-center" data-recipe-id="2">
+              <div class="cat-cap">
+                <h5><a href="#">Quinoa and Black Bean Salad</a></h5>
+                <p>A zesty, protein-rich salad with quinoa, black beans, fresh veggies, and lime‑cilantro dressing.</p>
+                <a href="#" class="plus-btn" data-toggle="modal" data-target="#recipeModal"><i class="ti-plus"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -100,7 +119,17 @@
         <div class="section-tittle text-center mb-50">
           <h2>Liked Recipes</h2>
         </div>
-        <div class="row" id="liked-recipes"></div>
+        <div class="row" id="liked-recipes">
+          <div class="col-lg-4 col-md-6 mb-50">
+            <div class="single-cat text-center" data-recipe-id="3">
+              <div class="cat-cap">
+                <h5><a href="#">Baked Salmon with Herb Crust</a></h5>
+                <p>Tender salmon fillets topped with a crispy herb breadcrumb crust.</p>
+                <a href="#" class="plus-btn" data-toggle="modal" data-target="#recipeModal"><i class="ti-plus"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -211,6 +240,25 @@
 
   <script src="config.js"></script>
   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const authBtn = document.getElementById("logoutBtn");
+      const username = sessionStorage.getItem("username");
+
+      if (username) {
+        authBtn.textContent = "Log Out";
+        authBtn.addEventListener("click", function (e) {
+          e.preventDefault();
+          sessionStorage.clear();
+          window.location.href = "login.html";
+        });
+      } else {
+        authBtn.textContent = "Log In";
+        authBtn.href = "login.html";
+      }
+
+      fetchUserAndInitLocation();
+    });
+
     async function fetchUserAndInitLocation() {
       try {
         const res = await fetch(`${API_BASE_URL}/api/user`, { credentials: "include" });
@@ -221,9 +269,11 @@
           return;
         }
 
-        document.getElementById("usernameDisplay").textContent = `@${data.display_name || "user"}`;
-        startLocationTracking();
+        const displayName = data.display_name || "user";
+        document.getElementById("usernameDisplay").textContent = `@${displayName}`;
+        sessionStorage.setItem("username", displayName);
 
+        startLocationTracking();
       } catch (err) {
         console.error("User fetch error", err);
       }
@@ -252,27 +302,6 @@
       sendLocation();
       setInterval(sendLocation, 30000);
     }
-
-    fetchUserAndInitLocation();
-
-    document.getElementById('logoutBtn').addEventListener('click', function (e) {
-      e.preventDefault();
-      fetch(`${API_BASE_URL}/logout`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' }
-      })
-      .then(response => {
-        if (response.ok) {
-          window.location.href = 'https://kerolosassad.github.io/MenuMate/';
-        } else {
-          alert('Logout failed.');
-        }
-      })
-      .catch(err => {
-        console.error('Logout error', err);
-      });
-    });
   </script>
 </body>
 </html>
