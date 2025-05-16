@@ -11,18 +11,18 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
-    <link rel="stylesheet" href="assets/css/slicknav.css" />
-    <link rel="stylesheet" href="assets/css/flaticon.css" />
-    <link rel="stylesheet" href="assets/css/gijgo.css" />
-    <link rel="stylesheet" href="assets/css/animate.min.css" />
-    <link rel="stylesheet" href="assets/css/animated-headline.css" />
-    <link rel="stylesheet" href="assets/css/magnific-popup.css" />
-    <link rel="stylesheet" href="assets/css/fontawesome-all.min.css" />
-    <link rel="stylesheet" href="assets/css/themify-icons.css" />
-    <link rel="stylesheet" href="assets/css/slick.css" />
-    <link rel="stylesheet" href="assets/css/nice-select.css" />
-    <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
+  <link rel="stylesheet" href="assets/css/slicknav.css" />
+  <link rel="stylesheet" href="assets/css/flaticon.css" />
+  <link rel="stylesheet" href="assets/css/gijgo.css" />
+  <link rel="stylesheet" href="assets/css/animate.min.css" />
+  <link rel="stylesheet" href="assets/css/animated-headline.css" />
+  <link rel="stylesheet" href="assets/css/magnific-popup.css" />
+  <link rel="stylesheet" href="assets/css/fontawesome-all.min.css" />
+  <link rel="stylesheet" href="assets/css/themify-icons.css" />
+  <link rel="stylesheet" href="assets/css/slick.css" />
+  <link rel="stylesheet" href="assets/css/nice-select.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
   <!-- Header -->
@@ -77,7 +77,7 @@
               <div class="avatar-circle mb-3">
                 <img src="assets/img/profile/avatar-placeholder.png" alt="Avatar" class="img-fluid rounded-circle" />
               </div>
-              <p>@yourusername</p>
+              <p id="usernameDisplay">@yourusername</p>
             </div>
           </div>
         </div>
@@ -85,44 +85,13 @@
     </div>
 
     <!-- Your Posts -->
-    <!-- Added top margin to clear hero slant -->
     <section class="service-area section-padding40 mt-5">
-    <section class="service-area section-padding40">
       <div class="container">
         <div class="section-tittle text-center mb-50">
           <h2>Your Posts</h2>
         </div>
         <div class="row" id="your-recipes">
-          <!-- Post 1 -->
-          <div class="col-lg-4 col-md-6 mb-50">
-            <div class="single-cat text-center" data-recipe-id="1">
-              <div class="cat-cap">
-                <h5><a href="#">Spinach and Feta Breakfast Scramble</a></h5>
-                <p>A fluffy scramble loaded with spinach, tangy feta, and fresh tomato.</p>
-                <a href="#" class="plus-btn" data-toggle="modal" data-target="#recipeModal"><i class="ti-plus"></i></a>
-              </div>
-            </div>
-          </div>
-          <!-- Post 2 -->
-          <div class="col-lg-4 col-md-6 mb-50">
-            <div class="single-cat text-center" data-recipe-id="2">
-              <div class="cat-cap">
-                <h5><a href="#">Quinoa and Black Bean Salad</a></h5>
-                <p>A zesty, protein-rich salad with quinoa, black beans, fresh veggies, and lime‑cilantro dressing.</p>
-                <a href="#" class="plus-btn" data-toggle="modal" data-target="#recipeModal"><i class="ti-plus"></i></a>
-              </div>
-            </div>
-          </div>
-          <!-- Post 3 -->
-          <div class="col-lg-4 col-md-6 mb-50">
-            <div class="single-cat text-center" data-recipe-id="3">
-              <div class="cat-cap">
-                <h5><a href="#">Grilled Chicken and Vegetable Kabobs</a></h5>
-                <p>Juicy chicken skewers with colorful veggies, marinated in a lemon‑garlic herb blend.</p>
-                <a href="#" class="plus-btn" data-toggle="modal" data-target="#recipeModal"><i class="ti-plus"></i></a>
-              </div>
-            </div>
-          </div>
+          <!-- Example static posts... -->
         </div>
       </div>
     </section>
@@ -134,36 +103,7 @@
           <h2>Liked Recipes</h2>
         </div>
         <div class="row" id="liked-recipes">
-          <!-- Liked 1 -->
-          <div class="col-lg-4 col-md-6 mb-50">
-            <div class="single-cat text-center" data-recipe-id="4">
-              <div class="cat-cap">
-                <h5><a href="#">Baked Salmon with Herb Crust</a></h5>
-                <p>Tender salmon fillets topped with a crispy herb breadcrumb crust.</p>
-                <a href="#" class="plus-btn" data-toggle="modal" data-target="#recipeModal"><i class="ti-plus"></i></a>
-              </div>
-            </div>
-          </div>
-          <!-- Liked 2 -->
-          <div class="col-lg-4 col-md-6 mb-50">
-            <div class="single-cat text-center" data-recipe-id="5">
-              <div class="cat-cap">
-                <h5><a href="#">Apple and Walnut Spinach Salad</a></h5>
-                <p>Crisp spinach tossed with sweet apples, crunchy walnuts, and creamy cheese.</p>
-                <a href="#" class="plus-btn" data-toggle="modal" data-target="#recipeModal"><i class="ti-plus"></i></a>
-              </div>
-            </div>
-          </div>
-          <!-- Liked 3 -->
-          <div class="col-lg-4 col-md-6 mb-50">
-            <div class="single-cat text-center" data-recipe-id="6">
-              <div class="cat-cap">
-                <h5><a href="#">Cauliflower Fried Rice</a></h5>
-                <p>A low-carb twist on fried rice, loaded with veggies and scrambled egg.</p>
-                <a href="#" class="plus-btn" data-toggle="modal" data-target="#recipeModal"><i class="ti-plus"></i></a>
-              </div>
-            </div>
-          </div>
+          <!-- Example static likes... -->
         </div>
       </div>
     </section>
@@ -194,34 +134,22 @@
         </div>
       </div>
     </div>
-
   </main>
 
   <!-- Footer -->
   <footer>
-    <div
-      class="footer-wrappr section-bg3"
-      data-background="assets/img/gallery/footer-bg.png"
-    >
+    <div class="footer-wrappr section-bg3" data-background="assets/img/gallery/footer-bg.png">
       <div class="footer-area footer-padding">
         <div class="container">
           <div class="row justify-content-between">
             <div class="col-xl-8 col-lg-8 col-md-6 col-sm-12">
               <div class="single-footer-caption mb-50">
-                <!-- logo -->
                 <div class="footer-logo mb-25">
-                  <a href="index.html"
-                    ><img
-                      src="assets/img/logo/logo2-removebg-preview.png"
-                      alt=""
-                  /></a>
+                  <a href="index.html"><img src="assets/img/logo/logo2-removebg-preview.png" alt="" /></a>
                 </div>
                 <div class="header-area">
                   <div class="main-header main-header2">
-                    <div
-                      class="menu-main d-flex align-items-center justify-content-start"
-                    >
-                      <!-- Main-menu -->
+                    <div class="menu-main d-flex align-items-center justify-content-start">
                       <div class="main-menu main-menu2">
                         <nav>
                           <ul>
@@ -239,24 +167,16 @@
           </div>
         </div>
       </div>
-      <!-- footer-bottom area -->
+
       <div class="footer-bottom-area">
         <div class="container">
           <div class="footer-border">
             <div class="row">
               <div class="col-xl-10">
                 <div class="footer-copy-right">
-                  <p>
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    &copy;
-                    <script>
-                      document.write(new Date().getFullYear());
-                    </script>
-                    MenuMate. All rights reserved.
-                    <i class="fa fa-heart" aria-hidden="true"></i> Eat clean.
-                    Share freely.
-
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                  <p>&copy;
+                    <script>document.write(new Date().getFullYear());</script>
+                    MenuMate. All rights reserved. <i class="fa fa-heart" aria-hidden="true"></i> Eat clean. Share freely.
                   </p>
                 </div>
               </div>
@@ -293,8 +213,51 @@
   <script src="assets/js/main.js"></script>
   <script src="assets/js/recipe.js"></script>
 
-    <!-- Login reinforcement and expirence sharing in the background -->
-    <script src="config.js"></script>
-    <script src="assets/js/session-guard.js"></script>
-  </body>
+  <script src="config.js"></script>
+  <script>
+    async function fetchUserAndInitLocation() {
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/user`, { credentials: "include" });
+        const data = await res.json();
+
+        if (!data.logged_in) {
+          window.location.href = "https://kerolosassad.github.io/MenuMate/";
+          return;
+        }
+
+        document.getElementById("usernameDisplay").textContent = `@${data.display_name || "user"}`;
+        startLocationTracking();
+
+      } catch (err) {
+        console.error("User fetch error", err);
+      }
+    }
+
+    function startLocationTracking() {
+      if (!navigator.geolocation) return;
+
+      function sendLocation() {
+        navigator.geolocation.getCurrentPosition(async (position) => {
+          const { latitude, longitude } = position.coords;
+
+          try {
+            await fetch(`${API_BASE_URL}/api/track_location`, {
+              method: "POST",
+              credentials: "include",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ latitude, longitude }),
+            });
+          } catch (err) {
+            console.warn("Location send failed", err);
+          }
+        });
+      }
+
+      sendLocation();
+      setInterval(sendLocation, 30000);
+    }
+
+    fetchUserAndInitLocation();
+  </script>
+</body>
 </html>
