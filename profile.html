@@ -46,7 +46,7 @@
                   </ul>
                 </nav>
                 <div class="header-right-btn f-right d-none d-lg-block ml-15">
-                  <a href="#" class="btn header-btn" id="logoutBtn">Log In</a>
+                  <a href="#" class="btn header-btn">Log In</a>
                 </div>
               </div>
             </div>
@@ -86,11 +86,13 @@
 
     <!-- Your Posts -->
     <section class="service-area section-padding40 mt-5">
+    <section class="service-area section-padding40">
       <div class="container">
         <div class="section-tittle text-center mb-50">
           <h2>Your Posts</h2>
         </div>
         <div class="row" id="your-recipes">
+          <!-- Post 1 -->
           <div class="col-lg-4 col-md-6 mb-50">
             <div class="single-cat text-center" data-recipe-id="1">
               <div class="cat-cap">
@@ -100,11 +102,22 @@
               </div>
             </div>
           </div>
+          <!-- Post 2 -->
           <div class="col-lg-4 col-md-6 mb-50">
             <div class="single-cat text-center" data-recipe-id="2">
               <div class="cat-cap">
                 <h5><a href="#">Quinoa and Black Bean Salad</a></h5>
                 <p>A zesty, protein-rich salad with quinoa, black beans, fresh veggies, and lime‑cilantro dressing.</p>
+                <a href="#" class="plus-btn" data-toggle="modal" data-target="#recipeModal"><i class="ti-plus"></i></a>
+              </div>
+            </div>
+          </div>
+          <!-- Post 3 -->
+          <div class="col-lg-4 col-md-6 mb-50">
+            <div class="single-cat text-center" data-recipe-id="3">
+              <div class="cat-cap">
+                <h5><a href="#">Grilled Chicken and Vegetable Kabobs</a></h5>
+                <p>Juicy chicken skewers with colorful veggies, marinated in a lemon‑garlic herb blend.</p>
                 <a href="#" class="plus-btn" data-toggle="modal" data-target="#recipeModal"><i class="ti-plus"></i></a>
               </div>
             </div>
@@ -120,11 +133,32 @@
           <h2>Liked Recipes</h2>
         </div>
         <div class="row" id="liked-recipes">
+          <!-- Liked 1 -->
           <div class="col-lg-4 col-md-6 mb-50">
-            <div class="single-cat text-center" data-recipe-id="3">
+            <div class="single-cat text-center" data-recipe-id="4">
               <div class="cat-cap">
                 <h5><a href="#">Baked Salmon with Herb Crust</a></h5>
                 <p>Tender salmon fillets topped with a crispy herb breadcrumb crust.</p>
+                <a href="#" class="plus-btn" data-toggle="modal" data-target="#recipeModal"><i class="ti-plus"></i></a>
+              </div>
+            </div>
+          </div>
+          <!-- Liked 2 -->
+          <div class="col-lg-4 col-md-6 mb-50">
+            <div class="single-cat text-center" data-recipe-id="5">
+              <div class="cat-cap">
+                <h5><a href="#">Apple and Walnut Spinach Salad</a></h5>
+                <p>Crisp spinach tossed with sweet apples, crunchy walnuts, and creamy cheese.</p>
+                <a href="#" class="plus-btn" data-toggle="modal" data-target="#recipeModal"><i class="ti-plus"></i></a>
+              </div>
+            </div>
+          </div>
+          <!-- Liked 3 -->
+          <div class="col-lg-4 col-md-6 mb-50">
+            <div class="single-cat text-center" data-recipe-id="6">
+              <div class="cat-cap">
+                <h5><a href="#">Cauliflower Fried Rice</a></h5>
+                <p>A low-carb twist on fried rice, loaded with veggies and scrambled egg.</p>
                 <a href="#" class="plus-btn" data-toggle="modal" data-target="#recipeModal"><i class="ti-plus"></i></a>
               </div>
             </div>
@@ -159,6 +193,7 @@
         </div>
       </div>
     </div>
+
   </main>
 
   <!-- Footer -->
@@ -199,8 +234,8 @@
             <div class="row">
               <div class="col-xl-10">
                 <div class="footer-copy-right">
-                  <p>&copy;
-                    <script>document.write(new Date().getFullYear());</script>
+                  <p>
+                    &copy; <script>document.write(new Date().getFullYear());</script>
                     MenuMate. All rights reserved. <i class="fa fa-heart" aria-hidden="true"></i> Eat clean. Share freely.
                   </p>
                 </div>
@@ -238,28 +273,15 @@
   <script src="assets/js/main.js"></script>
   <script src="assets/js/recipe.js"></script>
 
+  <!-- Login reinforcement and experience sharing -->
   <script src="config.js"></script>
+  <script src="assets/js/session-guard.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const authBtn = document.getElementById("logoutBtn");
-      const username = sessionStorage.getItem("username");
-
-      if (username) {
-        authBtn.textContent = "Log Out";
-        authBtn.addEventListener("click", function (e) {
-          e.preventDefault();
-          sessionStorage.clear();
-          window.location.href = "login.html";
-        });
-      } else {
-        authBtn.textContent = "Log In";
-        authBtn.href = "login.html";
-      }
-
-      fetchUserAndInitLocation();
+      fetchUserAndTrack();
     });
 
-    async function fetchUserAndInitLocation() {
+    async function fetchUserAndTrack() {
       try {
         const res = await fetch(`${API_BASE_URL}/api/user`, { credentials: "include" });
         const data = await res.json();
@@ -291,7 +313,7 @@
               method: "POST",
               credentials: "include",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ latitude, longitude }),
+              body: JSON.stringify({ latitude, longitude })
             });
           } catch (err) {
             console.warn("Location send failed", err);
