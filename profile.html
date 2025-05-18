@@ -23,6 +23,33 @@
   <link rel="stylesheet" href="assets/css/slick.css" />
   <link rel="stylesheet" href="assets/css/nice-select.css" />
   <link rel="stylesheet" href="assets/css/style.css" />
+
+  <!-- Experience Pass Button Custom Styles -->
+  <style>
+    .experience-pass-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #28a745, #5bc980);
+      color: #fff;
+      padding: 12px 25px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all 0.3s ease-in-out;
+      box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+      margin-top: 10px;
+    }
+
+    .experience-pass-btn:hover {
+      background: linear-gradient(135deg, #218838, #4cae4c);
+      box-shadow: 0 6px 20px rgba(40, 167, 69, 0.6);
+      transform: translateY(-2px);
+    }
+
+    .experience-pass-btn i {
+      margin-right: 8px;
+    }
+  </style>
 </head>
 <body>
   <!-- Header -->
@@ -78,6 +105,11 @@
                 <img src="assets/img/profile/avatar-placeholder.png" alt="Avatar" class="img-fluid rounded-circle" />
               </div>
               <p id="usernameDisplay">@yourusername</p>
+
+              <!-- Experience Pass Button -->
+              <a href="POC_Logging_info.html" class="experience-pass-btn wow animate__animated animate__pulse" data-wow-delay=".2s">
+                <i class="fas fa-street-view"></i> Experience Pass
+              </a>
             </div>
           </div>
         </div>
@@ -86,42 +118,12 @@
 
     <!-- Your Posts -->
     <section class="service-area section-padding40 mt-5">
-    <section class="service-area section-padding40">
       <div class="container">
         <div class="section-tittle text-center mb-50">
           <h2>Your Posts</h2>
         </div>
         <div class="row" id="your-recipes">
-          <!-- Post 1 -->
-          <div class="col-lg-4 col-md-6 mb-50">
-            <div class="single-cat text-center" data-recipe-id="1">
-              <div class="cat-cap">
-                <h5><a href="#">Spinach and Feta Breakfast Scramble</a></h5>
-                <p>A fluffy scramble loaded with spinach, tangy feta, and fresh tomato.</p>
-                <a href="#" class="plus-btn" data-toggle="modal" data-target="#recipeModal"><i class="ti-plus"></i></a>
-              </div>
-            </div>
-          </div>
-          <!-- Post 2 -->
-          <div class="col-lg-4 col-md-6 mb-50">
-            <div class="single-cat text-center" data-recipe-id="2">
-              <div class="cat-cap">
-                <h5><a href="#">Quinoa and Black Bean Salad</a></h5>
-                <p>A zesty, protein-rich salad with quinoa, black beans, fresh veggies, and lime‑cilantro dressing.</p>
-                <a href="#" class="plus-btn" data-toggle="modal" data-target="#recipeModal"><i class="ti-plus"></i></a>
-              </div>
-            </div>
-          </div>
-          <!-- Post 3 -->
-          <div class="col-lg-4 col-md-6 mb-50">
-            <div class="single-cat text-center" data-recipe-id="3">
-              <div class="cat-cap">
-                <h5><a href="#">Grilled Chicken and Vegetable Kabobs</a></h5>
-                <p>Juicy chicken skewers with colorful veggies, marinated in a lemon‑garlic herb blend.</p>
-                <a href="#" class="plus-btn" data-toggle="modal" data-target="#recipeModal"><i class="ti-plus"></i></a>
-              </div>
-            </div>
-          </div>
+          <!-- Posts here -->
         </div>
       </div>
     </section>
@@ -133,36 +135,7 @@
           <h2>Liked Recipes</h2>
         </div>
         <div class="row" id="liked-recipes">
-          <!-- Liked 1 -->
-          <div class="col-lg-4 col-md-6 mb-50">
-            <div class="single-cat text-center" data-recipe-id="4">
-              <div class="cat-cap">
-                <h5><a href="#">Baked Salmon with Herb Crust</a></h5>
-                <p>Tender salmon fillets topped with a crispy herb breadcrumb crust.</p>
-                <a href="#" class="plus-btn" data-toggle="modal" data-target="#recipeModal"><i class="ti-plus"></i></a>
-              </div>
-            </div>
-          </div>
-          <!-- Liked 2 -->
-          <div class="col-lg-4 col-md-6 mb-50">
-            <div class="single-cat text-center" data-recipe-id="5">
-              <div class="cat-cap">
-                <h5><a href="#">Apple and Walnut Spinach Salad</a></h5>
-                <p>Crisp spinach tossed with sweet apples, crunchy walnuts, and creamy cheese.</p>
-                <a href="#" class="plus-btn" data-toggle="modal" data-target="#recipeModal"><i class="ti-plus"></i></a>
-              </div>
-            </div>
-          </div>
-          <!-- Liked 3 -->
-          <div class="col-lg-4 col-md-6 mb-50">
-            <div class="single-cat text-center" data-recipe-id="6">
-              <div class="cat-cap">
-                <h5><a href="#">Cauliflower Fried Rice</a></h5>
-                <p>A low-carb twist on fried rice, loaded with veggies and scrambled egg.</p>
-                <a href="#" class="plus-btn" data-toggle="modal" data-target="#recipeModal"><i class="ti-plus"></i></a>
-              </div>
-            </div>
-          </div>
+          <!-- Liked posts here -->
         </div>
       </div>
     </section>
@@ -193,7 +166,6 @@
         </div>
       </div>
     </div>
-
   </main>
 
   <!-- Footer -->
@@ -276,6 +248,7 @@
   <!-- Login reinforcement and experience sharing -->
   <script src="config.js"></script>
   <script src="assets/js/session-guard.js"></script>
+
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       fetchUserAndTrack();
