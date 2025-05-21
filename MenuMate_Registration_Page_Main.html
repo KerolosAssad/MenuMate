@@ -271,10 +271,10 @@
 
         const resData = await res.json();
         if (res.ok) {
-          alert("✅ Registration successful!");
+          alert("Registration successful!");
           window.location.href = "https://kerolosassad.github.io/MenuMate/";
         } else {
-          alert("❌ " + resData.message);
+          alert(resData.message);
         }
       } catch (err) {
         alert("⚠️ Could not connect to backend.");
