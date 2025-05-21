@@ -246,14 +246,14 @@
         const data = await res.json();
 
         if (res.ok) {
-          alert("✅ Login successful! Redirecting...");
+          alert("Login successful! Redirecting...");
           window.location.href = "https://kerolosassad.github.io/MenuMate/MenuMate_LandingPage.html";
         } else {
-          alert("❌ " + data.message);
+          alert(data.message);
         }
       } catch (err) {
-        console.error("⚠️ Could not connect to backend:", err);
-        alert("⚠️ Could not connect to backend.");
+        console.error("Could not connect to backend:", err);
+        alert("Could not connect to backend.");
       }
     });
 
