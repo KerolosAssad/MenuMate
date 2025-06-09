@@ -14,10 +14,14 @@
 
   <style>
     body {
-     margin: 0;
-     font-family: 'Poppins', sans-serif;
-     background: #f9fafc;
-     min-height: 100vh; 
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #f9fafc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      position: relative;
     }
 
     .preloader {
@@ -163,39 +167,19 @@
       height: 20px;
     }
 
-  @media (max-width: 768px) {
-  .login-container {
-    flex-direction: column;
-    margin: 20px;
-  }
+    @media (max-width: 768px) {
+      .login-container {
+        flex-direction: column;
+      }
 
-  .login-left, .login-right {
-    padding: 20px;
-  }
+      .login-left, .login-right {
+        padding: 30px;
+      }
 
-  .login-left img {
-    max-width: 60%;
-  }
-
-  .login-right .logo {
-    max-width: 140px;
-    margin-bottom: 20px;
-  }
-
-  .login-right h2 {
-    font-size: 22px;
-  }
-  }
-
-  .page-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 40px 20px; 
-  box-sizing: border-box;
-  }
-  
+      .login-left img {
+        max-width: 60%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -204,7 +188,6 @@
     <div class="loader"></div>
   </div>
 
-  <div class="page-wrapper">
   <div class="login-container" style="display: none;" id="mainContent">
     <div class="login-left">
       <img src="assets/cookattempt2.png" alt="MenuMachine" />
@@ -221,7 +204,6 @@
           Continue with Google
         </button>
       </form>
-    </div>
 
       <p class="note">
         Don't have an account?
@@ -234,7 +216,7 @@
   <script>
     window.addEventListener('load', () => {
       document.getElementById('preloader').style.display = 'none';
-      document.getElementById('mainContent').style.display = 'block';
+      document.getElementById('mainContent').style.display = 'flex';
     });
   </script>
 
