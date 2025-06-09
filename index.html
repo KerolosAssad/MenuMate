@@ -186,6 +186,15 @@
     font-size: 22px;
   }
   }
+
+  .page-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 40px 20px; 
+  box-sizing: border-box;
+  }
   
   </style>
 </head>
@@ -195,6 +204,7 @@
     <div class="loader"></div>
   </div>
 
+  <div class="page-wrapper">
   <div class="login-container" style="display: none;" id="mainContent">
     <div class="login-left">
       <img src="assets/cookattempt2.png" alt="MenuMachine" />
@@ -211,6 +221,7 @@
           Continue with Google
         </button>
       </form>
+    </div>
 
       <p class="note">
         Don't have an account?
@@ -223,7 +234,7 @@
   <script>
     window.addEventListener('load', () => {
       document.getElementById('preloader').style.display = 'none';
-      document.getElementById('mainContent').style.display = 'flex';
+      document.getElementById('mainContent').style.display = 'block';
     });
   </script>
 
